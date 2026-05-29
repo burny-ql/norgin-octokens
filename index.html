@@ -1,0 +1,3388 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NORGIN - Enterprise AI Infrastructure Services</title>
+  <style>
+    /* ================================================================
+       CSS RESET & BASE
+    ================================================================ */
+    :root {
+      --section-x: clamp(24px, 8vw, 162px);
+      --section-x-wide: clamp(24px, 12vw, 288px);
+      --section-gap: clamp(40px, 6vw, 80px);
+      --radius-lg: 24px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; outline: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ================================================================
+       PAGE WRAPPER
+    ================================================================ */
+    .page {
+      position: relative;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    /* ================================================================
+       NAVBAR
+    ================================================================ */
+    .navbar {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; min-height: 64px;
+      background: #E2E8F0;
+      border-bottom: 1px solid #e2e8f0;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px clamp(20px, 4vw, 56px);
+      z-index: 100;
+    }
+    .navbar__logo {
+      font-family: 'Inter', 'Arial Black', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.3589px;
+      background: linear-gradient(90deg,#1D4ED8 0%,#51A2FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      white-space: nowrap;
+    }
+    .navbar__right { display: flex; align-items: center; gap: 24px; }
+    .navbar__link {
+      font-size: 16px; color: #09090b;
+      letter-spacing: -0.1504px; white-space: nowrap; cursor: pointer;
+    }
+    .navbar__sep { width: 1px; height: 32px; background: #e2e8f0; flex-shrink: 0; }
+    .navbar__lang {
+      display: flex; align-items: center; gap: 4px;
+      padding: 8px 20px; cursor: pointer;
+    }
+    .navbar__lang img { width: 14px; height: 14px; }
+    .navbar__lang span { font-size: 14px; color: #64748b; letter-spacing: -0.0179px; }
+    .navbar__console {
+      background: #1d4ed8;
+      border-radius: 6.75px;
+      padding: 8px 20px; cursor: pointer;
+    }
+    .navbar__console span { font-size: 14px; color: #fff; letter-spacing: -0.0179px; white-space: nowrap; }
+    .navbar__toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(29,78,216,0.08);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .navbar__toggle span {
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: #1d4ed8;
+      transition: transform 220ms ease, opacity 220ms ease;
+    }
+
+    /* ================================================================
+       HERO SECTION
+    ================================================================ */
+    .hero {
+      position: relative;
+      width: 100%; min-height: 854px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(72px, 10vw, 100px) var(--section-x) clamp(72px, 10vw, 120px);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .hero__bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; pointer-events: none; z-index: 1;
+    }
+    /* Radial gradient overlays on hero */
+    .hero__overlay {
+      position: absolute; inset: 0; pointer-events: none; z-index: 2;
+      background:
+        radial-gradient(ellipse 384px 170px at 40% 20%, rgba(29,78,216,0.1) 0%, transparent 100%),
+        radial-gradient(ellipse 490px 218px at 80% 0%,  rgba(59,130,246,0.05) 0%, transparent 100%),
+        radial-gradient(ellipse 430px 190px at 0%  50%, rgba(96,165,250,0.05) 0%, transparent 100%);
+    }
+    .hero__content {
+      position: relative; z-index: 3;
+      display: flex; flex-direction: column; gap: 80px;
+      align-items: flex-start; justify-content: center;
+      flex: 1 0 0; min-width: 0;
+    }
+    .hero__top { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; width: 100%; }
+    /* Badge */
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 7px 15px;
+      background: rgba(29,78,216,0.1);
+      border: 1px solid rgba(29,78,216,0.2);
+      border-radius: 99999px;
+    }
+    .hero__badge img { width: 16px; height: 16px; flex-shrink: 0; }
+    .hero__badge span { font-size: 14px; color: #1d4ed8; white-space: nowrap; }
+    /* Heading */
+    .hero__titles {
+      display: flex; flex-direction: column; gap: 0;
+      font-size: 60px; font-weight: 700;
+      letter-spacing: 0.3268px; text-align: center; width: 100%;
+    }
+    .hero__title--dark  { color: #09090b; }
+    .hero__title--grad {
+      background: linear-gradient(90deg,#1D4ED8 0%,#51A2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero__heading-wrap { display: flex; flex-direction: column; gap: 20px; width: 100%; }
+    .hero__desc { font-size: 20px; color: #64748b; letter-spacing: -0.4358px; width: min(100%, 586px); line-height: 1.6; }
+    /* CTA */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1d4ed8; border-radius: 8px;
+      padding: 12px 20px; cursor: pointer;
+    }
+    .btn-primary span { font-size: 16px; font-weight: 500; color: #fff; letter-spacing: -0.0179px; white-space: nowrap; }
+    .btn-primary img { width: 24px; height: 24px; flex-shrink: 0; }
+    /* Stats row */
+    .hero__stats { display: flex; gap: 48px; align-items: flex-start; flex-shrink: 0; }
+    .hero__stat { display: flex; flex-direction: column; gap: 7px; align-items: center; flex-shrink: 0; }
+    .hero__stat-val { display: flex; align-items: center; gap: 8px; height: 29px; justify-content: center; }
+    .hero__stat-val img { width: 24px; height: 24px; flex-shrink: 0; }
+    .hero__stat-num { font-size: 20px; font-weight: 700; color: #1d4ed8; white-space: nowrap; }
+    .hero__stat-lbl { font-size: 14px; color: #64748b; letter-spacing: -0.4358px; white-space: nowrap; }
+
+    /* ================================================================
+       PRODUCTS SECTION
+    ================================================================ */
+    .products {
+      position: relative;
+      width: 100%;
+      padding: 80px var(--section-x);
+      background: #f6f9fc;
+      overflow: hidden;
+    }
+    .products__inner { position: relative; display: flex; flex-direction: column; gap: 80px; width: 100%; }
+    /* Section header shared style */
+    .sec-header { display: flex; align-items: flex-end; justify-content: space-between; width: 100%; }
+    .sec-header__left { display: flex; flex-direction: column; gap: 20px; flex: 1 0 0; min-width: 0; padding-bottom: 1px; position: relative; isolation: isolate; }
+    .sec-title { display: flex; gap: 12px; align-items: flex-start; font-size: 42px; font-weight: 700; letter-spacing: 0.3691px; text-align: center; white-space: nowrap; }
+    .sec-title__dark { color: #09090b; }
+    .sec-title__grad {
+      background: linear-gradient(90deg,#1D4ED8 0%,#51A2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .sec-desc { font-size: 20px; color: #64748b; letter-spacing: -0.2922px; white-space: nowrap; }
+    /* Carousel nav buttons */
+    .sec-nav { display: flex; gap: 16px; align-items: center; flex-shrink: 0; padding-left: 48px; width: 264px; justify-content: flex-end; }
+    .nav-btn {
+      width: 56px; height: 56px; border-radius: 99px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+    }
+    .nav-btn--prev { border: 1px solid #e7ecf1; background: transparent; }
+    .nav-btn--next { background: rgba(29,78,216,0.1); border: none; }
+    .nav-btn img { width: 24px; height: 24px; display: block; }
+    .nav-btn--prev img { transform: rotate(180deg) scaleY(-1); }
+
+    /* Cards scroll row */
+    .products__cards { display: flex; gap: 20px; align-items: flex-start; overflow: hidden; padding-right: min(128px, 8vw); }
+
+    /* Product card */
+    .pcard {
+      flex-shrink: 0; width: min(540px, calc((100% - 20px) / 2)); min-width: 320px;
+      border-radius: 20px; overflow: hidden;
+      padding: 48px 40px 56px;
+      display: flex; flex-direction: column; gap: 20px;
+      align-items: flex-start;
+      transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+      cursor: pointer;
+    }
+    .pcard--white { background: #fff; border-top: 8px solid #1d4ed8; }
+    .pcard--blue  { background: #1d4ed8; box-shadow: 0 8px 16px -8px rgba(0,0,0,.1), 0 13px 27px -12px rgba(50,50,93,.25); }
+
+    /* Icon box */
+    .pcard__icon {
+      width: 58px; height: 58px; flex-shrink: 0;
+      border-radius: 12.75px; border: 1px solid rgba(255,255,255,0.5);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 15px 15px 1px; position: relative;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .pcard--white .pcard__icon { background: linear-gradient(135deg,rgba(29,78,216,0.1) 0%,rgba(29,78,216,0.05) 100%); }
+    .pcard--blue  .pcard__icon { background: linear-gradient(135deg,rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.05) 100%); }
+    .pcard__icon-inner { width: 100%; height: 28px; overflow: hidden; position: relative; }
+    .pcard__icon-img { width: 100%; height: 100%; object-fit: contain; }
+    .pcard--white .pcard__icon-img { filter: brightness(0) saturate(100%) invert(31%) sepia(92%) saturate(2246%) hue-rotate(220deg) brightness(91%) contrast(93%); }
+    .pcard--blue .pcard__icon-img { filter: brightness(0) saturate(100%) invert(100%); }
+
+    /* Card body */
+    .pcard__body { display: flex; flex-direction: column; gap: 32px; width: 100%; }
+    .pcard__title-wrap { width: 172px; }
+    .pcard__title { font-size: 28px; font-weight: 500; letter-spacing: -0.4358px; white-space: nowrap; line-height: normal; }
+    .pcard--white .pcard__title { color: #09090b; }
+    .pcard--blue  .pcard__title { color: #fff; }
+    .pcard__desc { font-size: 16px; letter-spacing: -0.1504px; line-height: normal; }
+    .pcard--white .pcard__desc { color: #64748b; }
+    .pcard--blue  .pcard__desc { color: #fff; }
+    .pcard__list { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+    .pcard__item { display: flex; align-items: center; gap: 12px; width: 100%; }
+    .pcard__dot { width: 7px; height: 7px; border-radius: 999px; flex-shrink: 0; }
+    .pcard--white .pcard__dot { background: #1d4ed8; }
+    .pcard--blue  .pcard__dot { background: #fff; }
+    .pcard__item-text { font-size: 14px; letter-spacing: -0.0179px; white-space: nowrap; line-height: normal; }
+    .pcard--white .pcard__item-text { color: #64748b; }
+    .pcard--blue  .pcard__item-text { color: #fff; }
+
+    /* Glow blobs */
+    .glow-left {
+      position: absolute; width: 336px; height: 336px; border-radius: 999px;
+      background: rgba(29,78,216,0.1); filter: blur(100px);
+      left: 55px; top: 101px; pointer-events: none; z-index: 0;
+    }
+    .glow-right {
+      position: absolute; width: 500px; height: 500px; border-radius: 999px;
+      background: rgba(81,162,255,0.05); filter: blur(120px);
+      bottom: -170px; right: -7px; pointer-events: none; z-index: 0;
+    }
+
+    /* ================================================================
+       PRICING SECTION
+    ================================================================ */
+    .pricing {
+      position: relative;
+      width: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 0 var(--section-x) 80px;
+      isolation: isolate;
+      background: #F6F9FC;
+    }
+    .pricing__corner-gpu {
+      position: absolute;
+      top: -64px;
+      left: 0;
+      width: 513px;
+      height: 513px;
+      object-fit: contain;
+      z-index: 2;
+      pointer-events: none;
+    }
+    /* Rounded-tab effect at top */
+    .pricing__tab-bar {
+      height: 80px; width: 100%;
+      overflow: hidden; border-radius: 24px 24px 0 0;
+      position: relative; flex-shrink: 0;
+    }
+    .pricing__tab-left  { position: absolute; left: 0; top: 0; bottom: 0; right: 404px; background: #1f1f1f; border-top-right-radius: 24px; }
+    .pricing__tab-right { position: absolute; right: 0; top: 0; bottom: 0; width: 404px; background: #fff; }
+    .pricing__tab-right-inner { position: absolute; top: 0; left: 0; right: 0; height: 80px; background: #fff; border-bottom-left-radius: 24px; }
+    /* Dark main body */
+    .pricing__body {
+      background: #1f1f1f;
+      width: 100%; overflow: hidden;
+      border-radius: 0 0 24px 24px; border-top-right-radius: 24px;
+      padding: 80px 0; position: relative;
+    }
+    /* header */
+    .pricing__header {
+      display: flex; flex-direction: column; gap: 21px;
+      align-items: center; width: 100%; white-space: nowrap;
+      padding: 0 var(--section-x);
+    }
+    .pricing__title-row { display: flex; gap: 4px; align-items: center; font-size: 42px; letter-spacing: 0.3691px; }
+    .pricing__title-dark { font-weight: 700; color: #fff; }
+    .pricing__title-grad {
+      background: linear-gradient(90deg,#C7D4F7 0%,#51A2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .pricing__subtitle { font-size: 16px; color: #dedede; letter-spacing: -0.2922px; text-align: center; }
+    /* inner content area */
+    .pricing__content {
+      display: flex; flex-direction: column; gap: 80px;
+      align-items: flex-start; justify-content: center;
+      padding: 80px clamp(24px, 7vw, 128px);
+      position: relative; isolation: isolate;
+    }
+    /* tab row */
+    .pricing__tabs { display: flex; gap: 80px; align-items: flex-start; width: 100%; position: relative; z-index: 3; }
+    .pricing__tab {
+      flex: 1 0 0; min-width: 0;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 20px 40px; border-radius: 20px; cursor: pointer;
+      transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease, opacity 220ms ease;
+    }
+    .pricing__tab--active { background: #1d4ed8; }
+    .pricing__tab img { width: 32px; height: 32px; flex-shrink: 0; }
+    .pricing__tab-label {
+      font-size: 28px; font-weight: 500; letter-spacing: 0.3691px; white-space: nowrap;
+      background: linear-gradient(90deg,#C7D4F7 0%,#fff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .pricing__tab:not(.pricing__tab--active) { opacity: 0.82; }
+    .pricing__tab:not(.pricing__tab--active):hover { opacity: 1; transform: translateY(-1px); }
+    /* info panel */
+    .pricing__panel {
+      display: flex; flex-direction: column; gap: 20px;
+      border-radius: 0 24px 24px 24px;
+      backdrop-filter: blur(16px);
+      width: 100%; position: relative; z-index: 2;
+    }
+    .pricing__panel-head { display: flex; gap: 20px; align-items: center; }
+    .pricing__panel-title-g { display: flex; gap: 8px; align-items: center; }
+    .pricing__panel-title-g img { width: 32px; height: 32px; }
+    .pricing__panel-name {
+      font-size: 28px; font-weight: 500; letter-spacing: 0.3691px; white-space: nowrap;
+      background: linear-gradient(90deg,#C7D4F7 0%,#fff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .pricing__badge {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 8px 12px; background: #262626;
+      border: 1px solid #484848; border-radius: 100px; overflow: hidden; flex-shrink: 0;
+    }
+    .pricing__badge img { width: 16px; height: 16px; }
+    .pricing__badge span { font-size: 14px; color: #fff; white-space: nowrap; }
+    .pricing__panel-desc { display: flex; flex-direction: column; gap: 4px; }
+    .pricing__panel-desc p { font-size: 16px; color: #9d9d9d; letter-spacing: -0.0179px; line-height: normal; }
+    .pricing__divider { height: 1px; background: #484848; width: 100%; flex-shrink: 0; }
+    .pricing__billing { display: flex; flex-direction: column; gap: 4px; }
+    .pricing__billing-mode { font-size: 28px; color: #fff; letter-spacing: -0.3589px; white-space: nowrap; }
+    .pricing__billing-lbl  { font-size: 16px; color: #9d9d9d; letter-spacing: -0.0179px; white-space: nowrap; }
+    /* sub-cards */
+    .pricing__cards { display: flex; gap: 24px; align-items: flex-start; width: 100%; }
+    .pc {
+      flex: 1 0 0; min-width: 0; background: #262626;
+      border-radius: 12px; padding: 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      border-top: 8px solid transparent;
+      transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+      cursor: pointer;
+    }
+    .pc__tag {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 4px 8px; background: #303030;
+      border: 0.5px solid #515257;
+      border-radius: 4px 8px 8px 4px; flex-shrink: 0;
+    }
+    .pc__tag span { font-size: 12px; color: #fff; letter-spacing: -0.0179px; white-space: nowrap; }
+    .pc__name { font-size: 20px; font-weight: 700; color: #fff; line-height: normal; }
+    .pc__spec { font-size: 12px; color: #9d9d9d; line-height: normal; }
+    .pc__price { display: flex; align-items: flex-end; gap: 2px; white-space: nowrap; }
+    .pc__price-pre  { font-size: 14px; color: #fdfdfd; letter-spacing: -0.0179px; line-height: 26px; }
+    .pc__price-num  {
+      font-size: 24px; font-weight: 700; line-height: normal;
+      background: linear-gradient(90deg,#A7BEFE 0%,#fff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .pc__price-suf  { font-size: 14px; color: #fdfdfd; letter-spacing: -0.0179px; line-height: 26px; }
+    .pc__hr { height: 1px; background: #484848; width: 100%; }
+    .pc__note { font-size: 12px; color: #9d9d9d; line-height: normal; }
+    .pc--active {
+      background: #1d4ed8;
+      box-shadow: 0 12px 24px rgba(29, 78, 216, 0.18);
+      transform: translateY(-2px);
+      border-top-color: #1d4ed8;
+    }
+    .pc--active .pc__tag {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.35);
+    }
+    .pc--active .pc__tag span,
+    .pc--active .pc__name,
+    .pc--active .pc__spec,
+    .pc--active .pc__price-pre,
+    .pc--active .pc__price-suf,
+    .pc--active .pc__note { color: #ffffff; }
+    .pc--active .pc__price-num {
+      background: linear-gradient(90deg,#C7D4F7 0%,#ffffff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .pc--active .pc__hr { background: rgba(255,255,255,0.26); }
+    /* cta row */
+    .pricing__cta-row { display: flex; flex-direction: row; align-items: center; justify-content: flex-end; width: 100%; gap: 14px; }
+    .pricing__cta-note { font-size: 18px; font-weight: 700; color: #ffffff; letter-spacing: -0.0179px; line-height: 1.5; }
+
+    /* Decorative image in pricing */
+    .pricing__deco {
+      position: absolute; bottom: -245px; right: -69px;
+      width: 552px; height: 552px; opacity: 0.85; z-index: 1; pointer-events: none;
+    }
+    .pricing__deco img { width: 100%; height: 100%; object-fit: cover; }
+    .pricing__deco-hue {
+      position: absolute; inset: 0; background: #1d4ed8;
+      mix-blend-mode: hue;
+    }
+
+    /* ================================================================
+       TOKEN SERVICE MODEL GRID (inside pricing panel)
+    ================================================================ */
+    .token-tabs {
+      display: flex; gap: 0; align-items: center;
+      justify-content: center;
+      overflow-x: auto; width: 100%;
+    }
+    .token-tabs__item {
+      padding: 12px 20px; font-size: 16px; color: #9d9d9d;
+      white-space: nowrap; border-radius: 8px;
+      transition: background 180ms ease, color 180ms ease;
+    }
+    .token-tabs__item:hover { color: #fff; background: rgba(255,255,255,0.05); }
+    .token-tabs__item--active { color: #fff; background: rgba(255,255,255,0.1); }
+    .token-grid {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 20px;
+      justify-content: stretch;
+      align-items: stretch;
+      width: 100%;
+      margin: 0 auto;
+      overflow-x: visible;
+    }
+    .tcard {
+      border-radius: 12px; overflow: hidden;
+      background: #262626; position: relative;
+      display: flex; flex-direction: column;
+      transition: transform 180ms ease, box-shadow 180ms ease;
+      cursor: pointer;
+    }
+    .tcard:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.4), 0 8px 16px rgba(0,0,0,0.5); }
+    .tcard__hover { display: none !important; }
+    .tcard__img {
+      width: 100%; aspect-ratio: 1; background: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tcard__img img { width: 62%; height: 62%; max-width: 160px; max-height: 160px; object-fit: contain; }
+    .tcard__body {
+      padding: 12px; display: flex; flex-direction: column;
+      justify-content: center; flex: 0 0 auto; min-height: auto;
+      position: relative; border-radius: 12px; overflow: hidden;
+      background: linear-gradient(90deg, #262626 0%, #2a2a2a 100%);
+    }
+    .tcard__badge {
+      display: inline-block; font-size: 12px; color: #fff;
+      background: #303030; border: 0.5px solid #515257;
+      border-radius: 4px 8px 4px 8px; padding: 4px 8px; width: fit-content;
+    }
+    .tcard__promo { display: none; }
+    .tcard__info { display: flex; flex-direction: column; gap: 4px; margin: 0; }
+    .tcard__name { font-size: 16px; font-weight: 700; color: #fff; word-break: break-word; line-height: normal; }
+    .tcard__desc { font-size: 13px; color: #9d9d9d; line-height: 1.4; }
+    .tcard__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .token-grid .tcard__badge,
+    .token-grid .tcard__promo,
+    .token-grid .tcard__tags { display: none !important; }
+    .tcard__tag {
+      font-size: 13px; padding: 3px 8px; border-radius: 6px;
+      border: 0.5px solid; line-height: normal;
+    }
+    .tcard__tag--llm    { background: rgba(129,140,248,0.25); border-color: #818cf8; color: #c4c9fd; }
+    .tcard__tag--cyan   { background: rgba(6,182,212,0.25); border-color: #06b6d4; color: #06b6d4; }
+    .tcard__tag--green  { background: rgba(34,197,94,0.25); border-color: #22c55e; color: #22c55e; }
+    .tcard__tag--yellow { background: rgba(234,179,8,0.25); border-color: #eab308; color: #eab308; }
+    .tcard__tag--purple { background: rgba(168,85,247,0.25); border-color: #a855f7; color: #a855f7; }
+    .tcard__tag--red    { background: rgba(239,68,68,0.25); border-color: #ef4444; color: #ef4444; }
+    .token-more {
+      margin-top: 8px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .token-grid .tcard--hidden { display: none !important; }
+
+    /* Hover pricing overlay */
+    .tcard__hover {
+      display: none; position: absolute; inset: 0;
+      border-radius: 0 0 12px 12px;
+      background: linear-gradient(142deg, #3366ff 1.7%, #8eb5ff 100%);
+      flex-direction: column; padding: 12px;
+    }
+    .tcard:hover .tcard__hover { display: flex; }
+    .tcard__hover-tabs { display: none; }
+    .tcard__hover-tab {
+      font-size: 14px; color: rgba(255,255,255,0.65); cursor: pointer;
+      white-space: nowrap; transition: color 150ms, font-weight 150ms;
+    }
+    .tcard__hover-tab--active { font-size: 16px; font-weight: 700; color: #fff; }
+    .tcard__hover-sep { width: 1px; background: rgba(255,255,255,0.15); align-self: stretch; }
+    .tcard__hover-hr { display: none; }
+    .tcard__hover-panel { display: none; flex: 1; flex-direction: column; justify-content: space-between; padding: 12px; }
+    .tcard__hover-panel--active { display: flex; }
+    .tcard__hover-panel[data-price-panel="pkg"] { display: none !important; }
+    .tcard__hover-features { display: flex; flex-wrap: wrap; gap: 4px; }
+    .tcard__hover-feat {
+      font-size: 10px; color: #fff; padding: 4px 8px;
+      border: 0.5px solid rgba(255,255,255,0.3); border-radius: 4px;
+    }
+    .tcard__hover-prices { display: flex; gap: 40px; padding-bottom: 8px; }
+    .tcard__hover-col { display: flex; flex-direction: column; gap: 2px; }
+    .tcard__hover-lbl { font-size: 12px; color: #fff; }
+    .tcard__hover-val {
+      font-size: 20px; font-weight: 700;
+      background: linear-gradient(90deg, #fff 0%, #a7befe 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .tcard__hover-unit { font-size: 12px; color: #fff; }
+    .tcard__hover-orig { font-size: 12px; color: rgba(255,255,255,0.45); text-decoration: line-through; }
+    /* Package pills */
+    .tcard__hover-pills { display: none; }
+    .tcard__hover-pill {
+      font-size: 14px; padding: 4px 12px; border-radius: 99px;
+      border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.65);
+      cursor: pointer; transition: all 150ms;
+    }
+    .tcard__hover-pill--active {
+      background: #fff; color: #3366ff; font-weight: 500;
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 4px 8px rgba(92,114,174,0.25), 0 8px 16px rgba(84,100,146,0.09);
+    }
+    .tcard__hover-pill-hr { display: none; }
+
+    /* ================================================================
+       LOGOS SECTION
+    ================================================================ */
+    .logos {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(180deg,#4A96F9 0%,#1E50D7 100%);
+      padding: 80px var(--section-x-wide) 144px;
+      display: flex; flex-direction: column; gap: 80px;
+    }
+    .logos__hd { display: flex; flex-direction: column; gap: 20px; text-align: center; color: #fff; width: 100%; }
+    .logos__title  { font-size: 42px; font-weight: 700; letter-spacing: 0.3691px; line-height: 58px; }
+    .logos__sub    { font-size: 20px; letter-spacing: -0.2922px; line-height: 22px; }
+    .logos__grid   {
+      display: flex; flex-direction: column; gap: 20px; align-items: center;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 8%, black 20%, black 80%, rgba(0,0,0,0.4) 92%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 8%, black 20%, black 80%, rgba(0,0,0,0.4) 92%, transparent 100%);
+    }
+    .logos__row    { display: flex; gap: 64px; align-items: center; justify-content: center; width: 100%; }
+    .logos__row--w { width: 100%; }
+    .logo-item { flex-shrink: 0; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.9; }
+    .logos__floating {
+      position: absolute;
+      top: 226px;
+      right: 72px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .logos__floating img {
+      width: 280px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+    /* Blue gradient overlay */
+    .logos__overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 743px; pointer-events: none;
+      background:
+        linear-gradient(-62.92deg, rgb(34,86,218) 9.59%, rgba(70,143,246,0) 54.19%),
+        linear-gradient(63.47deg,  rgb(32,83,216) 8.85%,  rgba(70,143,246,0) 59.66%);
+    }
+
+    /* ================================================================
+       SOLUTIONS SECTION
+    ================================================================ */
+    .solutions {
+      position: relative;
+      width: 100%;
+      padding: 80px var(--section-x);
+      background: #f6f9fc;
+      overflow: hidden;
+    }
+    .solutions__inner { position: relative; display: flex; flex-direction: column; gap: 80px; }
+    .solutions__cards { display: flex; gap: 20px; align-items: flex-start; overflow: hidden; padding-right: min(128px, 8vw); }
+
+    /* Solution card */
+    .scard {
+      flex-shrink: 0; width: min(789px, calc((100% - 20px) / 2)); min-width: 320px; min-height: 576px;
+      border-radius: 20px; overflow: hidden;
+      position: relative;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 48px 40px 20px;
+      transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+      cursor: pointer;
+    }
+    .scard--white { background: #fff; border-top: 8px solid #1d4ed8; }
+    .scard--blue  { background: #1d4ed8; box-shadow: 0 8px 16px -8px rgba(0,0,0,.1), 0 13px 27px -12px rgba(50,50,93,.25); }
+
+    .scard__content {
+      display: flex; flex-direction: column; gap: 32px;
+      flex: 1; position: relative; z-index: 4;
+      min-height: 0;
+    }
+    .scard__hd { display: flex; flex-direction: column; gap: 12px; }
+    .scard__icon { width: 48px; height: 40px; object-fit: contain; }
+    .scard__title { font-size: 32px; font-weight: 700; letter-spacing: -0.4358px; white-space: nowrap; line-height: normal; }
+    .scard--white .scard__title { color: #09090b; }
+    .scard--blue  .scard__title { color: #fff; }
+    .scard__desc  { font-size: 20px; letter-spacing: -0.1504px; line-height: 1.5; }
+    .scard--white .scard__desc  { color: #64748b; }
+    .scard--blue  .scard__desc  { color: rgba(255,255,255,.65); }
+
+    .scard__sep { height: 1px; background: #e7ecf1; width: 100%; position: relative; z-index: 3; flex-shrink: 0; }
+    .scard--blue .scard__sep { background: rgba(255,255,255,0.45); }
+
+    .scard__stats {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding: 20px 30px; white-space: nowrap; position: relative; z-index: 2;
+    }
+    .scard--white .scard__stats { color: #425466; }
+    .scard--blue  .scard__stats { color: #fff; }
+    .sstat { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+    .sstat--w200 { width: 200px; flex-shrink: 0; }
+    .sstat--w201 { width: 201px; flex-shrink: 0; }
+    .sstat--flex { flex: 1 0 0; min-width: 0; }
+    .sstat__num  { font-size: 32px; font-weight: 700; line-height: normal; text-align: center; }
+    .sstat__lbl  { font-size: 14px; line-height: normal; }
+
+    /* Decorative bg images in solution cards */
+    .scard__deco { position: absolute; pointer-events: none; }
+
+    /* ================================================================
+       CTA SECTION
+    ================================================================ */
+    .cta {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(180deg,#4A96F9 0%,#1E50D7 100%);
+      padding: 80px var(--section-x-wide);
+      display: flex; gap: 56px; align-items: flex-start;
+    }
+    .cta__left {
+      flex: 1 0 0; min-width: 0;
+      display: flex; flex-direction: column; gap: 40px; align-self: stretch;
+    }
+    .cta__heading { display: flex; flex-direction: column; gap: 20px; }
+    .cta__title-row {
+      display: flex; align-items: flex-start; justify-content: center;
+      font-size: 42px; letter-spacing: 0.3691px; white-space: nowrap;
+    }
+    .cta__title-dark { font-weight: 700; color: #fff; }
+    .cta__title-grad {
+      background: linear-gradient(90deg,#C7D4F7 0%,#51A2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .cta__desc { font-size: 20px; color: #99C8FE; letter-spacing: -0.2922px; line-height: 1.5; }
+    .cta__features { display: flex; flex-direction: column; gap: 12px; }
+    .cta__feat { display: flex; align-items: center; gap: 12px; }
+    .cta__feat img { width: 8px; height: 8px; flex-shrink: 0; }
+    .cta__feat span { font-size: 16px; color: #fff; letter-spacing: -0.1504px; white-space: nowrap; line-height: normal; }
+    .cta__contacts { display: flex; flex-direction: column; gap: 8px; flex: 1 0 0; }
+    .cta__contact  { display: flex; align-items: center; gap: 8px; }
+    .cta__contact img  { width: 24px; height: 24px; flex-shrink: 0; }
+    .cta__contact span { font-size: 14px; color: #99C8FE; letter-spacing: -0.1504px; white-space: nowrap; line-height: normal; }
+    .cta__notice {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px; padding: 16px 20px;
+    }
+    .cta__notice-inner { display: flex; gap: 8px; align-items: center; }
+    .cta__notice-inner img { width: 20px; height: 20px; flex-shrink: 0; }
+    .cta__notice-text { font-size: 12.25px; color: #fff; letter-spacing: -0.0179px; line-height: 17.5px; white-space: nowrap; }
+
+    /* Contact form panel */
+    .cta__form {
+      flex: 0 0 46%; min-width: 0; max-width: 820px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 12px;
+      padding: 28px 20px 24px;
+      box-shadow: 0 8px 32px rgba(31,38,135,.1);
+      display: flex; flex-direction: column; gap: 16px;
+      margin-top: 6px;
+    }
+    .cta__form-title {
+      font-size: 30px; font-weight: 700;
+      color: #fff; letter-spacing: 0.3691px;
+      text-align: center; line-height: normal;
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+    .finput {
+      background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 8px; padding: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .finput p, .finput span {
+      font-size: 14px; color: #64748b;
+      letter-spacing: -0.2922px; line-height: normal;
+      flex: 1 0 0; min-width: 0;
+    }
+    .finput img { width: 14px; height: 14px; flex-shrink: 0; }
+    .finput--full  { width: 100%; }
+    .finput--area  { align-items: flex-start; padding-bottom: 66px; }
+    .finput--area p { white-space: nowrap; }
+    .btn-submit {
+      width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+      background: #1d4ed8; border-radius: 8px;
+      padding: 12px 20px; cursor: pointer;
+    }
+    .btn-submit span { font-size: 16px; color: #fff; letter-spacing: -0.0179px; white-space: nowrap; }
+    .btn-submit img  { width: 24px; height: 24px; }
+    .form-privacy { font-size: 12px; color: #64748b; letter-spacing: -0.2922px; text-align: center; line-height: normal; }
+    .sales-modal__shell {
+      background: linear-gradient(180deg, rgba(235,243,255,0.96) 0%, rgba(225,236,255,0.92) 100%);
+      border: 1px solid rgba(191, 219, 254, 0.9);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    .sales-modal__title {
+      font-size: clamp(28px, 3vw, 42px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #0f172a;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .sales-modal__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .sales-modal__field,
+    .sales-modal__select,
+    .sales-modal__textarea {
+      width: 100%;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.96);
+      color: #0f172a;
+      font-size: 15px;
+      padding: 14px 16px;
+      transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+      outline: none;
+    }
+    .sales-modal__field:focus,
+    .sales-modal__select:focus,
+    .sales-modal__textarea:focus {
+      border-color: #1d4ed8;
+      box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12);
+      transform: translateY(-1px);
+    }
+    .sales-modal__select,
+    .sales-modal__textarea,
+    .sales-modal__field--full {
+      margin-bottom: 12px;
+    }
+    .sales-modal__textarea {
+      min-height: 180px;
+      resize: vertical;
+      line-height: 1.7;
+    }
+    .sales-modal__error {
+      min-height: 20px;
+      margin: 4px 2px 12px;
+      color: #dc2626;
+      font-size: 13px;
+    }
+    .sales-modal__success {
+      display: none;
+      text-align: center;
+      color: #334155;
+      line-height: 1.8;
+      padding: 8px 4px 4px;
+    }
+    .sales-modal__success strong {
+      display: block;
+      font-size: 22px;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .sales-modal__summary {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.92);
+      text-align: left;
+      color: #0f172a;
+    }
+    @media (max-width: 768px) {
+      .sales-modal__shell { padding: 20px; }
+      .sales-modal__grid { grid-template-columns: 1fr; }
+      .sales-modal__title { margin-bottom: 20px; }
+    }
+
+    /* ================================================================
+       BG DECORATION between sections
+    ================================================================ */
+    .bg-deco {
+      position: absolute; left: 0; top: 1872px;
+      width: 100%; height: 1172px; opacity: .3; pointer-events: none;
+      background:
+        radial-gradient(ellipse 384px 234px at 40% 20%, rgba(29,78,216,0.1) 0%, transparent 100%),
+        radial-gradient(ellipse 492px 300px at 80% 0%,  rgba(59,130,246,0.05) 0%, transparent 100%),
+        radial-gradient(ellipse 429px 262px at 0%  50%, rgba(96,165,250,0.05) 0%, transparent 100%);
+    }
+
+    /* ================================================================
+       FOOTER
+    ================================================================ */
+    .footer {
+      position: relative; width: 100%; min-height: auto;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      padding: 0 0 32px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .footer__top {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: flex-start;
+      width: 100%;
+      padding: 90px var(--section-x-wide) 86px;
+    }
+    .footer__brand { display: flex; flex-direction: column; gap: 18px; width: min(100%, 560px); flex-shrink: 0; align-self: stretch; }
+    .footer__brand-name {
+      font-size: 28px; font-weight: 700; white-space: nowrap;
+      background: linear-gradient(90deg,#1D4ED8 0%,#51A2FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .footer__brand-desc { font-size: 14px; color: #64748b; letter-spacing: -0.1504px; width: min(100%, 560px); line-height: 1.6; }
+    .footer__nav { display: flex; flex-direction: column; gap: 20px; width: 205px; flex-shrink: 0; }
+    .footer__nav-h { font-size: 16px; font-weight: 500; color: #09090b; letter-spacing: -0.2922px; width: 205px; }
+    .footer__nav-list { display: flex; flex-direction: column; gap: 16px; }
+    .footer__nav-item { font-size: 14px; color: #64748b; letter-spacing: -0.0179px; white-space: nowrap; line-height: normal; cursor: pointer; }
+
+    .footer__middle { border-top: 1px solid #e2e8f0; padding-top: 28px; flex-shrink: 0; }
+    .footer__nl-row { display: flex; align-items: center; justify-content: space-between; height: 49px; }
+    .footer__nl-info { display: flex; flex-direction: column; gap: 8px; width: 492px; }
+    .footer__nl-title { font-size: 16px; font-weight: 500; color: #09090b; letter-spacing: -0.2922px; white-space: nowrap; }
+    .footer__nl-desc  { font-size: 12px; color: #64748b; letter-spacing: -0.0179px; white-space: nowrap; }
+    .footer__nl-form  { display: flex; gap: 14px; align-items: center; width: 410px; }
+    .footer__email-in {
+      flex: 1 0 0; background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 8px; display: flex; align-items: center; gap: 8px; padding: 12px;
+    }
+    .footer__email-in img { width: 20px; height: 20px; flex-shrink: 0; }
+    .footer__email-in span { font-size: 14px; color: rgba(9,9,11,.5); letter-spacing: -0.1504px; flex: 1; }
+    .footer__sub-btn { background: #1d4ed8; border-radius: 8px; padding: 12px 16px; cursor: pointer; flex-shrink: 0; }
+    .footer__sub-btn span { font-size: 16px; color: #fff; white-space: nowrap; }
+
+    .footer__bottom { display: flex; align-items: center; justify-content: flex-start; width: 100%; padding: 0 var(--section-x-wide); }
+    .footer__copy { font-size: 12px; color: #64748b; letter-spacing: -0.2922px; line-height: normal; flex: 1 0 0; }
+    .footer__legal { display: flex; gap: 32px; align-items: center; }
+    .footer__legal-item { font-size: 12px; color: #64748b; letter-spacing: -0.2922px; text-align: center; white-space: nowrap; cursor: pointer; }
+
+    /* ================================================================
+       SCROLL-TO-TOP BUTTON
+    ================================================================ */
+    .scroll-top {
+      position: absolute;
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      left: auto;
+      top: auto;
+      width: 56px; height: 56px;
+      background: #1d4ed8;
+      border-radius: 999px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.1);
+      cursor: pointer; z-index: 50;
+    }
+    .scroll-top img { width: 20px; height: 20px; }
+
+    /* ================================================================
+       ICON PLACEHOLDER (for vectors not available as single img)
+    ================================================================ */
+    .icon-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    @media (max-width: 1440px) {
+      .hero__titles,
+      .cta__form-title { font-size: 30px; }
+      .sec-title,
+      .pricing__title-row,
+      .logos__title,
+      .cta__title-row { font-size: clamp(30px, 3vw, 42px); }
+      .products__cards,
+      .solutions__cards,
+      .pricing__cards,
+      .logos__row { flex-wrap: wrap; }
+      .pcard,
+      .scard { width: calc(50% - 10px); }
+      .pricing__tabs { gap: 24px; }
+      .token-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .logos__floating { right: 48px; }
+      .footer__top,
+      .footer__nl-row { gap: 32px; }
+    }
+
+    @media (max-width: 1024px) {
+      .navbar { position: sticky; }
+      .navbar,
+      .navbar__right,
+      .sec-header,
+      .pricing__tabs,
+      .cta,
+      .footer__top,
+      .footer__nl-row,
+      .footer__bottom { flex-wrap: wrap; }
+      .navbar__right { gap: 16px; }
+      .hero { min-height: auto; }
+      .hero__top,
+      .hero__heading-wrap,
+      .pricing__header,
+      .logos__hd,
+      .cta__heading { width: 100%; }
+      .hero__titles,
+      .sec-title,
+      .pricing__title-row,
+      .cta__title-row { white-space: normal; text-align: left; }
+      .hero__stats,
+      .pricing__cards,
+      .scard__stats { flex-wrap: wrap; }
+      .sec-desc,
+      .cta__feat span,
+      .cta__contact span,
+      .footer__nl-desc { white-space: normal; }
+      .sec-nav { width: 100%; padding-left: 0; justify-content: flex-start; }
+      .pcard,
+      .scard,
+      .pc,
+      .cta__left,
+      .cta__form,
+      .footer__brand,
+      .footer__nav,
+      .footer__nl-info,
+      .footer__nl-form { width: 100%; min-width: 0; flex: 1 1 100%; }
+      .pricing__tab { flex: 1 1 280px; }
+      .logos__floating,
+      .pricing__deco,
+      .bg-deco { display: none; }
+      .pricing__corner-gpu {
+        display: block;
+        width: 308px;
+        height: 308px;
+        top: -64px;
+        left: 0;
+      }
+      .logos { padding-bottom: 80px; }
+      .footer__brand-desc,
+      .footer__nav-h { width: 100%; }
+      .footer__email-in,
+      .footer__sub-btn { width: 100%; }
+      .footer__nl-form { flex-wrap: wrap; }
+    }
+
+    @media (min-width: 1025px) and (max-width: 1440px) {
+      .pricing__corner-gpu {
+        width: 410px;
+        height: 410px;
+        top: -64px;
+        left: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --section-x: 16px;
+        --section-x-wide: 16px;
+      }
+      html { font-size: 15px; }
+      body.mobile-nav-open { overflow: hidden; }
+      .navbar {
+        gap: 12px;
+        min-height: 60px;
+        padding: 9px 16px;
+      }
+      .navbar__logo { font-size: 28px; }
+      .navbar__toggle { display: inline-flex; }
+      .navbar__right {
+        position: fixed;
+        top: 68px;
+        left: 16px;
+        right: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 14px;
+        background: rgba(255,255,255,0.96);
+        border: 1px solid rgba(226,232,240,0.96);
+        border-radius: 18px;
+        box-shadow: 0 24px 70px rgba(15,23,42,0.18);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px) scale(0.98);
+        pointer-events: none;
+        transition: opacity 220ms ease, visibility 220ms ease, transform 220ms ease;
+      }
+      .navbar.mobile-open .navbar__right {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+      }
+      .navbar.mobile-open .navbar__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .navbar.mobile-open .navbar__toggle span:nth-child(2) { opacity: 0; }
+      .navbar.mobile-open .navbar__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      .navbar__link {
+        width: 100%;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        border-radius: 12px;
+        background: rgba(248,250,252,0.7);
+      }
+      .navbar__sep { display: none; }
+      .navbar__lang,
+      .navbar__console {
+        width: 100%;
+        min-height: 44px;
+        justify-content: center;
+        border-radius: 12px;
+      }
+      .hero {
+        min-height: 690px;
+        padding-top: 96px;
+        padding-bottom: 48px;
+        align-items: flex-start;
+      }
+      .hero__content { gap: 40px; }
+      .hero__top { align-items: center; text-align: center; }
+      .hero__titles {
+        font-size: clamp(34px, 10vw, 42px);
+        line-height: 1.14;
+        text-align: center;
+      }
+      .hero__desc {
+        width: 100%;
+        max-width: 520px;
+        text-align: center;
+      }
+      .hero__stats {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+      .hero__stat {
+        min-width: 0;
+        padding: 14px 10px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.72);
+        border: 1px solid rgba(226,232,240,0.82);
+        backdrop-filter: blur(8px);
+      }
+      .hero__stat:last-child { grid-column: 1 / -1; }
+      .hero__desc,
+      .sec-desc,
+      .logos__sub,
+      .scard__desc,
+      .cta__desc { font-size: 16px; }
+      .products,
+      .solutions,
+      .logos,
+      .cta,
+      .footer { padding-top: 56px; padding-bottom: 56px; }
+      .products__inner,
+      .solutions__inner,
+      .logos { gap: 36px; }
+      .sec-header {
+        align-items: flex-start;
+        gap: 20px;
+      }
+      .sec-title,
+      .pricing__title-row,
+      .logos__title,
+      .cta__title-row {
+        font-size: 30px;
+        line-height: 1.22;
+      }
+      .sec-title,
+      .pricing__title-row,
+      .cta__title-row {
+        flex-direction: column;
+        gap: 4px;
+      }
+      .sec-desc { line-height: 1.65; }
+      .sec-nav {
+        justify-content: space-between;
+        width: 116px;
+      }
+      .nav-btn { width: 50px; height: 50px; }
+      .products__cards,
+      .solutions__cards {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-right: 16px;
+        padding-bottom: 8px;
+        margin-right: -16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+      .products__cards::-webkit-scrollbar,
+      .solutions__cards::-webkit-scrollbar,
+      .pricing__tabs::-webkit-scrollbar { display: none; }
+      .pcard,
+      .scard {
+        width: min(86vw, 420px);
+        min-width: min(86vw, 420px);
+        scroll-snap-align: start;
+      }
+      .pcard {
+        padding: 28px 22px 32px;
+        gap: 18px;
+      }
+      .pcard__body { gap: 22px; }
+      .pcard__title,
+      .pricing__panel-name,
+      .pricing__billing-mode { font-size: 24px; }
+      .pcard__title,
+      .pcard__item-text,
+      .pricing__tab-label,
+      .pricing__panel-name,
+      .pricing__billing-mode,
+      .pc__tag span,
+      .pc__price { white-space: normal; }
+      .scard {
+        min-height: 500px;
+        padding: 32px 22px 20px;
+      }
+      .scard__title {
+        font-size: 26px;
+        white-space: normal;
+      }
+      .scard__stats {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding: 18px 0 0;
+      }
+      .sstat--w200,
+      .sstat--w201,
+      .sstat--flex { width: 100%; }
+      .sstat__num { font-size: 26px; }
+      .pricing__header,
+      .pricing__content,
+      .cta__form,
+      .footer { padding-left: 16px; padding-right: 16px; }
+      .pricing {
+        padding: 40px 20px;
+      }
+      .pricing__tab-bar { height: 48px; border-radius: 18px 18px 0 0; }
+      .pricing__tab-left { right: 35%; border-top-right-radius: 18px; }
+      .pricing__tab-right { width: 35%; }
+      .pricing__tab-right-inner { height: 48px; border-bottom-left-radius: 18px; }
+      .pricing__body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .pricing__content { gap: 40px; }
+      .pricing__corner-gpu {
+        width: 259px;
+        height: 259px;
+        top: -64px;
+        left: 0;
+      }
+      .pricing__header {
+        gap: 16px;
+        white-space: normal;
+      }
+      .pricing__subtitle {
+        line-height: 1.7;
+        white-space: normal;
+      }
+      .pricing__tabs {
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 12px;
+        overflow: visible;
+        padding-bottom: 0;
+        scroll-snap-type: none;
+      }
+      .pricing__tab {
+        flex: 1 1 auto;
+        width: 100%;
+        min-width: 0;
+        padding: 16px 18px;
+        justify-content: flex-start;
+        scroll-snap-align: none;
+      }
+      .pricing__tab-label { font-size: 20px; }
+      .pricing__panel-head,
+      .pricing__panel-title-g,
+      .footer__legal { flex-wrap: wrap; }
+      .pricing__panel-head { align-items: flex-start; }
+      .pricing__panel-desc p,
+      .pc__note { line-height: 1.7; }
+      .pricing__cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .token-grid {
+        grid-template-columns: repeat(6, minmax(220px, 72vw));
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(220px, 72vw);
+        gap: 12px;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .token-grid::-webkit-scrollbar { display: none; }
+      .token-grid .tcard { scroll-snap-align: start; }
+      .token-tabs { flex-wrap: wrap; }
+      .pc { padding: 20px; }
+      .logos__title { line-height: 1.28; }
+      .logos__sub { line-height: 1.6; }
+      .logos__grid { gap: 12px; }
+      .logos__row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .logos__row .logo-item {
+        width: 100% !important;
+        height: 56px !important;
+        padding: 10px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.1);
+        object-fit: contain;
+      }
+      .cta { gap: 32px; }
+      .cta__left { gap: 28px; }
+      .cta__title-row { justify-content: flex-start; }
+      .cta__features,
+      .cta__contacts { gap: 10px; }
+      .cta__notice-text { white-space: normal; line-height: 1.6; }
+      .cta__form {
+        padding-top: 28px;
+        padding-bottom: 28px;
+        border-radius: 18px;
+      }
+      .cta__form-title { font-size: 26px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer__middle { padding-top: 32px; }
+      .footer {
+        min-height: auto;
+        gap: 0;
+      }
+      .footer__top {
+        gap: 18px;
+        padding: 56px 16px 72px;
+      }
+      .footer__brand { gap: 16px; }
+      .footer__nl-row { height: auto; align-items: stretch; }
+      .footer__nl-info { gap: 6px; }
+      .footer__bottom {
+        align-items: flex-start;
+        flex-direction: column-reverse;
+        gap: 18px;
+        padding: 8px 16px 20px;
+      }
+      .footer__copy {
+        flex: 0 0 auto;
+        width: 100%;
+        margin-top: 4px;
+      }
+      .footer__legal {
+        gap: 14px 22px;
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .scroll-top { right: 16px; bottom: 16px; width: 48px; height: 48px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================ -->
+  <section class="hero">
+    <img class="hero__bg" src="assets/hero-bg.png" alt="">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <div class="hero__top">
+        <!-- Badge -->
+        <div class="hero__badge">
+          <img src="assets/icon-star.svg" alt="">
+          <span>企业级 AI 基础设施服务商</span>
+        </div>
+        <!-- Heading + desc -->
+        <div class="hero__heading-wrap">
+          <div class="hero__titles">
+            <span class="hero__title--dark">释放您的 AI 工作负载 </span>
+            <span class="hero__title--grad">体验无限算力</span>
+          </div>
+          <p class="hero__desc">企业级 GPU 算力，从弹性按时计费实例到无服务器 API Token，为您的模型训练与 AI 创新提供强劲动力。</p>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="hero__stats">
+        <div class="hero__stat">
+          <div class="hero__stat-val">
+            <img src="assets/icon-exp.svg" alt="">
+            <span class="hero__stat-num">22年</span>
+          </div>
+          <span class="hero__stat-lbl">专业咨询经验</span>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">
+            <img src="assets/icon-clients.svg" alt="">
+            <span class="hero__stat-num">500+</span>
+          </div>
+          <span class="hero__stat-lbl">企业客户选择</span>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">
+            <img src="assets/icon-sla.svg" alt="">
+            <span class="hero__stat-num">99.99%</span>
+          </div>
+          <span class="hero__stat-lbl">SLA 运行时间保证</span>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">
+            <img src="assets/icon-network.svg" alt="">
+            <span class="hero__stat-num">100+</span>
+          </div>
+          <span class="hero__stat-lbl">Gbps 节点互联带宽</span>
+        </div>
+        <div class="hero__stat">
+          <div class="hero__stat-val">
+            <img src="assets/icon-tflops.svg" alt="">
+            <span class="hero__stat-num">TFLOPS</span>
+          </div>
+          <span class="hero__stat-lbl">海量并行计算能力</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PRICING SECTION
+  ============================================================ -->
+  <section class="pricing">
+    <img class="pricing__corner-gpu" src="assets/Rectangle.png" alt="">
+    <!-- Curved tab at top (dark-to-white corner effect) -->
+    <div class="pricing__tab-bar">
+      <div class="pricing__tab-left"></div>
+      <div class="pricing__tab-right">
+        <div class="pricing__tab-right-inner"></div>
+      </div>
+    </div>
+
+    <!-- Dark body -->
+    <div class="pricing__body">
+      <!-- Header text -->
+      <div class="pricing__header">
+        <div class="pricing__title-row">
+          <span class="pricing__title-dark">灵活</span>
+          <span class="pricing__title-grad">计算定价</span>
+        </div>
+        <p class="pricing__subtitle">从灵活的 GPU 实例到按需付费的 API Token，为您的 AI 工作负载找到完美的计算解决方案。</p>
+      </div>
+
+      <!-- Content area -->
+      <div class="pricing__content">
+        <!-- Tab selectors -->
+        <div class="pricing__tabs">
+          <div class="pricing__tab pricing__tab--active" data-panel-target="token">
+            <img src="assets/icon-token.svg" alt="">
+            <span class="pricing__tab-label">聚合模型 Token 服务</span>
+          </div>
+          <div class="pricing__tab" data-panel-target="gpu">
+            <img src="assets/icon-gpu-pool.svg" alt="">
+            <span class="pricing__tab-label">弹性高并发推训卡池</span>
+          </div>
+        </div>
+
+        <!-- Info panel -->
+        <div class="pricing__panel" data-panel="gpu" style="display:none;">
+          <div class="pricing__divider"></div>
+          <!-- Billing mode -->
+          <div class="pricing__billing">
+            <span class="pricing__billing-mode">按卡时付费 / 并发包月套餐</span>
+            <span class="pricing__billing-lbl">计费模式</span>
+          </div>
+
+          <!-- Sub-cards -->
+          <div class="pricing__cards">
+            <!-- Card 1 -->
+            <div class="pc">
+              <div class="pc__tag"><span>WT-X201 GPU 集群 (64GB HBM2e 显存)</span></div>
+              <div>
+                <p class="pc__name">32 卡独占·专属集群</p>
+                <p class="pc__spec">WT-X201 x 32/依托 1024 卡集群/共享模式/P95≤50ms</p>
+              </div>
+              <div class="pc__price">
+                <span class="pc__price-pre">预估</span>
+                <span class="pc__price-num">¥ 293</span>
+                <span class="pc__price-suf">/时</span>
+              </div>
+              <div class="pc__hr"></div>
+              <p class="pc__note">长文本专用模型：适合需要特定硬件拓扑、长上下文推理的特殊任务。</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="pc">
+              <div class="pc__tag"><span>WT-X201 GPU 集群 (64GB HBM2e 显存)</span></div>
+              <div>
+                <p class="pc__name">16 卡并发·企业版</p>
+                <p class="pc__spec">WT-X201 x 128/专属资源池/专属高速调度通道/极高 QPS 上限</p>
+              </div>
+              <div class="pc__price">
+                <span class="pc__price-pre">预估</span>
+                <span class="pc__price-num">¥ 147</span>
+                <span class="pc__price-suf">/时</span>
+              </div>
+              <div class="pc__hr"></div>
+              <p class="pc__note">大规模业务上线：适合高日活应用，需要稳定的大规模并发吞吐。</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="pc">
+              <div class="pc__tag"><span>WT-X201 GPU 集群 (64GB HBM2e 显存)</span></div>
+              <div>
+                <p class="pc__name">8 卡独占·基础版</p>
+                <p class="pc__spec">WT-X201 x 16 (双机)/物理级独占/HBM2e 极速互联/按需调度</p>
+              </div>
+              <div class="pc__price">
+                <span class="pc__price-pre">预估</span>
+                <span class="pc__price-num">¥ 73</span>
+                <span class="pc__price-suf">/时</span>
+              </div>
+              <div class="pc__hr"></div>
+              <p class="pc__note">小规模推理测试：适合初创团队/单一模型轻量级推理。</p>
+            </div>
+            <!-- Card 4 -->
+            <div class="pc">
+              <div class="pc__tag"><span>WT-X201 GPU 集群 (64GB HBM2e 显存)</span></div>
+              <div>
+                <p class="pc__name">弹性按需· 时租节点</p>
+                <p class="pc__spec">单卡起租/sGPU 灵活切分/按实际使用时长计费/秒级启停</p>
+              </div>
+              <div class="pc__price">
+                <span class="pc__price-pre">预估</span>
+                <span class="pc__price-num">¥ 9</span>
+                <span class="pc__price-suf">/时</span>
+              </div>
+              <div class="pc__hr"></div>
+              <p class="pc__note">临时开发调试：适合算法工程师临时跑实验、Debug，极低成本。</p>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="pricing__cta-row">
+            <span class="pricing__cta-note">获取更多定制化服务</span>
+            <button class="btn-primary" data-sales-trigger="quote">
+              <span>联系获取报价</span>
+              <img src="assets/icon-arrow.svg" alt="">
+            </button>
+          </div>
+        </div>
+
+        <!-- Token Service Panel -->
+        <div class="pricing__panel pricing__panel--token" data-panel="token">
+          <div class="pricing__divider"></div>
+          <div class="pricing__billing">
+            <span class="pricing__billing-mode">多种主流大模型的token消耗计费</span>
+            <span class="pricing__billing-lbl">计费模式</span>
+          </div>
+
+          <!-- Model Grid -->
+          <div class="token-grid">
+            <div class="tcard" data-category="llm" style="display:none;">
+              <div class="tcard__img"><img src="assets/minimax-logo.png" alt="MiniMax"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">MiniMax</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--cyan">Flagship</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥2</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥8</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"100","5":"500","10":"1000"}'>¥100</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"200","5":"1000","10":"2000"}'>原价:¥200</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"400","5":"2000","10":"4000"}'>¥400</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"800","5":"4000","10":"8000"}'>原价:¥800</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="llm" style="display:none;">
+              <div class="tcard__img"><img src="assets/minimax-logo.png" alt="MiniMax-M2.7-highspeed"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">MiniMax-M2.7-highspeed</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--cyan">Premium</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥2.1</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥8.4</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"105","5":"525","10":"1050"}'>¥105</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"210","5":"1050","10":"2100"}'>原价:¥210</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"420","5":"2100","10":"4200"}'>¥420</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"840","5":"4200","10":"8400"}'>原价:¥840</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="llm">
+              <div class="tcard__img"><img src="assets/deepseek-logo.png" alt="DeepSeek"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">DeepSeek</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--cyan">High-Perf</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥4</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥12</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"200","5":"1000","10":"2000"}'>¥200</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"400","5":"2000","10":"4000"}'>原价:¥400</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"600","5":"3000","10":"6000"}'>¥600</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"1200","5":"6000","10":"12000"}'>原价:¥1200</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="llm">
+              <div class="tcard__img"><img src="assets/qwen-logo.png" alt="通义千问Qwen"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">通义千问Qwen</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--green">Eco</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+                <span class="tcard__hover-feat">模型调优</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥0.5</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥2</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"25","5":"125","10":"250"}'>¥25</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"50","5":"250","10":"500"}'>原价:¥50</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"100","5":"500","10":"1000"}'>¥100</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"200","5":"1000","10":"2000"}'>原价:¥200</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="llm">
+              <div class="tcard__img"><img src="https://www.kimi.com/favicon.ico" alt="KIMI"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">KIMI</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--yellow">Fast</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥1.5</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥12</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"75","5":"375","10":"750"}'>¥75</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"150","5":"750","10":"1500"}'>原价:¥150</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"600","5":"3000","10":"6000"}'>¥600</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"1200","5":"6000","10":"12000"}'>原价:¥1200</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="llm">
+              <div class="tcard__img"><img src="https://bigmodel.cn/img/icons/apple-touch-icon-152x152.png" alt="智谱AI"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">智谱AI</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--cyan">Balanced</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+                <span class="tcard__hover-feat">模型调优</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥2</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥8</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"100","5":"500","10":"1000"}'>¥100</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"200","5":"1000","10":"2000"}'>原价:¥200</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"400","5":"2000","10":"4000"}'>¥400</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"800","5":"4000","10":"8000"}'>原价:¥800</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="reasoning">
+              <div class="tcard__img"><img src="https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/favicon/128x128.png" alt="豆包"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">豆包</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--purple">Reasoning</span>
+                  <span class="tcard__tag tcard__tag--red">New</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥1</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥10</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"50","5":"250","10":"500"}'>¥50</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"100","5":"500","10":"1000"}'>原价:¥100</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"500","5":"2500","10":"5000"}'>¥500</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"1000","5":"5000","10":"10000"}'>原价:¥1000</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="llm">
+              <div class="tcard__img"><img src="assets/minimax-logo.png" alt="MiniMax"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">MiniMax</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">LLM</span>
+                  <span class="tcard__tag tcard__tag--cyan">Balanced</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+                <span class="tcard__hover-feat">联网搜索</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥0.4</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥3.2</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"20","5":"100","10":"200"}'>¥20</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"40","5":"200","10":"400"}'>原价:¥40</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"160","5":"800","10":"1600"}'>¥160</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"320","5":"1600","10":"3200"}'>原价:¥320</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="vl" style="display:none;">
+              <div class="tcard__img"><img src="assets/qwen-logo.png" alt="Qwen3-VL"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">Qwen3-VL</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">VL</span>
+                  <span class="tcard__tag tcard__tag--cyan">Balanced</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">Function Calling</span>
+                <span class="tcard__hover-feat">结构化输出</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥2</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥8</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"100","5":"500","10":"1000"}'>¥100</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"200","5":"1000","10":"2000"}'>原价:¥200</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"400","5":"2000","10":"4000"}'>¥400</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"800","5":"4000","10":"8000"}'>原价:¥800</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="vl" style="display:none;">
+              <div class="tcard__img"><img src="assets/qwen-logo.png" alt="Qwen2.5-VL"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">Qwen2.5-VL</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">VL</span>
+                  <span class="tcard__tag tcard__tag--cyan">Flagship</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">结构化输出</span>
+                <span class="tcard__hover-feat">模型调优</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥16</span><span class="tcard__hover-unit">/M Tokens</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥48</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"800","5":"4000","10":"8000"}'>¥800</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"1600","5":"8000","10":"16000"}'>原价:¥1600</span></div>
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val" data-pkg-val='{"1":"2400","5":"12000","10":"24000"}'>¥2400</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"4800","5":"24000","10":"48000"}'>原价:¥4800</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="embedding" style="display:none;">
+              <div class="tcard__img"><img src="assets/qwen-logo.png" alt="qwen3-embedding-8b"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__promo">支持流量包特惠</div>
+                <div class="tcard__info">
+                  <p class="tcard__name">qwen3-embedding-8b</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">Embedding</span>
+                  <span class="tcard__tag tcard__tag--cyan">Premium</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">批量推理</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val">¥0.5</span><span class="tcard__hover-unit">/M Tokens</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-pills">
+                <span class="tcard__hover-pill tcard__hover-pill--active" data-pkg="1">1 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="5">5 亿包</span>
+                <span class="tcard__hover-pill" data-pkg="10">10 亿包</span>
+              </div>
+              <div class="tcard__hover-pill-hr"></div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输入</span><span class="tcard__hover-val" data-pkg-val='{"1":"25","5":"125","10":"250"}'>¥25</span><span class="tcard__hover-orig" data-pkg-orig='{"1":"50","5":"250","10":"500"}'>原价:¥50</span></div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="embedding" style="display:none;">
+              <div class="tcard__img"><img src="assets/bge-m3-logo.png" alt="BGE-M3"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__info">
+                  <p class="tcard__name">BGE-M3</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">Embedding</span>
+                  <span class="tcard__tag tcard__tag--cyan">Premium</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">MIT开源免费使用</span><span class="tcard__hover-val">联系客服</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-prices"><div class="tcard__hover-col"><span class="tcard__hover-val">暂无流量包</span></div></div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="vision" style="display:none;">
+              <div class="tcard__img"><img src="assets/meta-logo.png" alt="SAM 3"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__info">
+                  <p class="tcard__name">SAM 3</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">Vision</span>
+                  <span class="tcard__tag tcard__tag--cyan">Premium</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-features">
+                <span class="tcard__hover-feat">批量推理</span>
+                <span class="tcard__hover-feat">模型调优</span>
+              </div>
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">官方开源发布</span><span class="tcard__hover-val">联系客服</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-prices"><div class="tcard__hover-col"><span class="tcard__hover-val">暂无流量包</span></div></div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="video" style="display:none;">
+              <div class="tcard__img"><img src="https://www.wan-2-2.com/favicon.ico" alt="wan2.2系列"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__info">
+                  <p class="tcard__name">wan2.2系列</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">Video</span>
+                  <span class="tcard__tag tcard__tag--red">New</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">输出</span><span class="tcard__hover-val">¥0.10</span><span class="tcard__hover-unit">/ S 起</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-prices"><div class="tcard__hover-col"><span class="tcard__hover-val">暂无流量包</span></div></div>
+            </div>
+                </div>
+              </div>
+            </div>
+            <div class="tcard" data-category="vision" style="display:none;">
+              <div class="tcard__img"><img src="assets/meta-logo.png" alt="DINOv3"></div>
+              <div class="tcard__body">
+                <span class="tcard__badge">Serverless</span>
+                <div class="tcard__info">
+                  <p class="tcard__name">DINOv3</p>
+                </div>
+                <div class="tcard__tags">
+                  <span class="tcard__tag tcard__tag--llm">Vision</span>
+                  <span class="tcard__tag tcard__tag--cyan">Premium</span>
+                </div>
+                <div class="tcard__hover">
+                  <div class="tcard__hover-tabs">
+                    <span class="tcard__hover-tab tcard__hover-tab--active" data-ptab="token">按量付费</span>
+                    <span class="tcard__hover-sep"></span>
+                    <span class="tcard__hover-tab" data-ptab="pkg">预付费流量包</span>
+                  </div>
+                  <div class="tcard__hover-hr"></div>
+            <div class="tcard__hover-panel tcard__hover-panel--active" data-price-panel="token">
+              <div class="tcard__hover-prices">
+                <div class="tcard__hover-col"><span class="tcard__hover-lbl">官方发布权重</span><span class="tcard__hover-val">联系客服</span></div>
+              </div>
+            </div>
+            <div class="tcard__hover-panel" data-price-panel="pkg">
+              <div class="tcard__hover-prices"><div class="tcard__hover-col"><span class="tcard__hover-val">暂无流量包</span></div></div>
+            </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="token-more">
+            <button class="btn-primary">
+              <span>查看更多大模型</span>
+              <img src="assets/icon-arrow.svg" alt="" style="filter:brightness(0) invert(1);">
+            </button>
+          </div>
+        </div>
+
+        <!-- Decorative image -->
+        <div class="pricing__deco" style="position:absolute;bottom:-245px;right:-69px;width:552px;height:552px;opacity:.85;z-index:1;pointer-events:none;overflow:hidden;">
+          <img src="assets/pricing-deco.png" alt="" style="width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:#1f1f1f;mix-blend-mode:hue;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CTA + CONTACT SECTION
+  ============================================================ -->
+  <section class="cta">
+    <!-- Left column -->
+    <div class="cta__left">
+      <div class="cta__heading">
+        <div class="cta__title-row">
+          <span class="cta__title-dark">准备好</span>
+          <span class="cta__title-grad">扩展您的算力</span>
+          <span class="cta__title-dark"> 了吗？</span>
+        </div>
+        <p class="cta__desc">加入领先的 AI 实验室和企业，在我们的云平台上为您的工作负载提供动力。联系销售获取定制报价、大规模部署方案或立即开启 API 访问权限。</p>
+      </div>
+      <div class="cta__features">
+        <div class="cta__feat">
+          <img src="assets/icon-dot.svg" alt="">
+          <span>大型 GPU 集群独家批量折扣</span>
+        </div>
+        <div class="cta__feat">
+          <img src="assets/icon-dot.svg" alt="">
+          <span>定制私有网络拓扑与架构规划</span>
+        </div>
+        <div class="cta__feat">
+          <img src="assets/icon-dot.svg" alt="">
+          <span>从其他云提供商无缝迁移支持</span>
+        </div>
+        <div class="cta__feat">
+          <img src="assets/icon-dot.svg" alt="">
+          <span>24/7 专属企业级基础设施支持团队</span>
+        </div>
+      </div>
+      <div class="cta__contacts">
+        <div class="cta__contact">
+          <img src="assets/icon-email.svg" alt="">
+          <span>tony.xing@norgin.com</span>
+        </div>
+        <div class="cta__contact">
+          <img src="assets/icon-phone.svg" alt="">
+          <span>+86-13116777375</span>
+        </div>
+        <div class="cta__contact">
+          <img src="assets/icon-location.svg" alt="">
+          <span>上海市虹口区黄浦路53号上海海湾大厦11F1101</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="cta__form">
+      <h2 class="cta__form-title">联系算力销售团队</h2>
+      <div class="form-grid">
+        <div class="finput"><p>您的姓名</p></div>
+        <div class="finput"><p>工作邮箱</p></div>
+      </div>
+      <div class="finput finput--full"><p>公司名称</p></div>
+      <div class="finput finput--full" style="justify-content:space-between;">
+        <p style="height:20px;width:100%;flex:1 1 auto;">主要计算需求</p>
+        <img src="assets/icon-dropdown.svg" alt="" style="width:14px;height:14px;">
+      </div>
+      <div class="finput finput--full finput--area">
+        <p>请告诉我们您的工作负载、框架要求和预估规模...</p>
+      </div>
+      <button class="btn-submit">
+        <span>与专家联系</span>
+        <img src="assets/icon-arrow.svg" alt="">
+      </button>
+      <p class="form-privacy">提交此表格即表示您同意我们的隐私政策和服务条款。</p>
+    </div>
+  </section>
+
+  <!-- BG decoration radial gradient -->
+  <div class="bg-deco"></div>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <!-- Top: brand + nav columns -->
+    <div class="footer__top">
+      <div class="footer__brand">
+        <span class="footer__brand-name">诺勤信息科技</span>
+        <p class="footer__brand-desc">专为人工智能工作负载打造的下一代高性能云平台。提供从推理到大规模集群训练的弹性计算、网络和存储解决方案，助力创新者实现飞跃。</p>
+      </div>
+    </div>
+
+    <!-- Bottom: copyright + legal -->
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2026 <span style="text-transform:uppercase;">norgin</span> cloud. 保留所有权利。</p>
+      <div class="footer__legal">
+        <span class="footer__legal-item">隐私政策</span>
+        <span class="footer__legal-item">服务条款</span>
+        <span class="footer__legal-item">合规中心 (SOC 2/HIPAA)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       SCROLL-TO-TOP BUTTON
+  ============================================================ -->
+  <div class="scroll-top">
+    <img src="assets/icon-up.svg" alt="top">
+  </div>
+
+</div><!-- /.page -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // ============================================================
+    // 基础元素缓存
+    // ============================================================
+    var page = document.querySelector('.page');
+    var navbar = document.querySelector('.navbar');
+    var navbarToggle = document.querySelector('.navbar__toggle');
+    var hero = document.querySelector('.hero');
+    var scrollTopButton = document.querySelector('.scroll-top');
+    var navLinks = Array.from(document.querySelectorAll('.navbar__link'));
+    var primaryButtons = Array.from(document.querySelectorAll('.btn-primary, .btn-submit, .navbar__console, .footer__sub-btn, .nav-btn, .scroll-top'));
+    var revealTargets = Array.from(document.querySelectorAll(
+      '.hero__badge, .hero__heading-wrap, .hero__stats, .pcard, .pricing__header, .pricing__tabs, .pricing__panel, .logos__hd, .logos__row, .scard, .cta__left, .cta__form, .footer__top, .footer__middle'
+    ));
+    var parallaxTargets = [
+      { element: document.querySelector('.hero__bg'), speed: 0.14 },
+      { element: document.querySelector('.hero__overlay'), speed: 0.08 },
+      { element: document.querySelector('.pricing__corner-gpu'), speed: 0.1 },
+      { element: document.querySelector('.pricing__deco'), speed: -0.06 },
+      { element: document.querySelector('.bg-deco'), speed: 0.05 }
+    ].filter(function (item) { return item.element; });
+
+    document.documentElement.style.scrollBehavior = 'smooth';
+
+    // ============================================================
+    // 区块映射：导航点击后平滑定位到对应内容区
+    // ============================================================
+    var sectionMap = {
+      '产品': document.querySelector('.products'),
+      '定价': document.querySelector('.pricing'),
+      '基础设施': document.querySelector('.logos'),
+      '客户案例': document.querySelector('.solutions'),
+      '联系销售': document.querySelector('.cta')
+    };
+
+    // ============================================================
+    // 通用缓动函数
+    // ============================================================
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function escapeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+    }
+
+    // ============================================================
+    // 弹窗：统一创建，可复用于销售、订阅、需求选择等
+    // 支持点击关闭按钮与遮罩关闭
+    // ============================================================
+    var modalState = { overlay: null, panel: null, body: null, title: null };
+
+    function ensureModal() {
+      if (modalState.overlay) return modalState;
+
+      var overlay = document.createElement('div');
+      overlay.setAttribute('aria-hidden', 'true');
+      Object.assign(overlay.style, {
+        position: 'fixed',
+        inset: '0',
+        background: 'rgba(9, 9, 11, 0.52)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px',
+        opacity: '0',
+        visibility: 'hidden',
+        transition: 'opacity 260ms ease, visibility 260ms ease',
+        zIndex: '9999'
+      });
+
+      var panel = document.createElement('div');
+      Object.assign(panel.style, {
+        width: 'min(520px, 100%)',
+        background: '#ffffff',
+        borderRadius: '20px',
+        boxShadow: '0 24px 80px rgba(15, 23, 42, 0.24)',
+        overflow: 'hidden',
+        transform: 'translateY(24px) scale(0.96)',
+        transition: 'transform 260ms ease, opacity 260ms ease',
+        opacity: '0'
+      });
+
+      var header = document.createElement('div');
+      Object.assign(header.style, {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '20px 24px',
+        borderBottom: '1px solid rgba(226, 232, 240, 0.9)'
+      });
+
+      var title = document.createElement('h3');
+      title.textContent = '提示';
+      Object.assign(title.style, {
+        fontSize: '20px',
+        color: '#09090b',
+        fontWeight: '700'
+      });
+
+      var closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.innerHTML = '&times;';
+      Object.assign(closeButton.style, {
+        width: '40px',
+        height: '40px',
+        borderRadius: '999px',
+        background: 'rgba(29, 78, 216, 0.08)',
+        color: '#1d4ed8',
+        fontSize: '24px',
+        lineHeight: '1',
+        transition: 'transform 180ms ease, background 180ms ease'
+      });
+
+      closeButton.addEventListener('mouseenter', function () {
+        closeButton.style.transform = 'rotate(90deg) scale(1.05)';
+        closeButton.style.background = 'rgba(29, 78, 216, 0.14)';
+      });
+      closeButton.addEventListener('mouseleave', function () {
+        closeButton.style.transform = '';
+        closeButton.style.background = 'rgba(29, 78, 216, 0.08)';
+      });
+
+      var body = document.createElement('div');
+      Object.assign(body.style, {
+        padding: '24px',
+        color: '#475569',
+        lineHeight: '1.75'
+      });
+
+      header.appendChild(title);
+      header.appendChild(closeButton);
+      panel.appendChild(header);
+      panel.appendChild(body);
+      overlay.appendChild(panel);
+      document.body.appendChild(overlay);
+
+      function closeModal() {
+        overlay.style.opacity = '0';
+        overlay.style.visibility = 'hidden';
+        panel.style.transform = 'translateY(24px) scale(0.96)';
+        panel.style.opacity = '0';
+        document.body.style.overflow = '';
+      }
+
+      overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) {
+          closeModal();
+        }
+      });
+
+      closeButton.addEventListener('click', closeModal);
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && overlay.style.visibility === 'visible') {
+          closeModal();
+        }
+      });
+
+      modalState = {
+        overlay: overlay,
+        panel: panel,
+        body: body,
+        title: title,
+        close: closeModal
+      };
+
+      return modalState;
+    }
+
+    function openModal(title, contentNodeOrHtml, options) {
+      var modal = ensureModal();
+      modal.title.textContent = title;
+      modal.body.innerHTML = '';
+      modal.panel.style.width = (options && options.width) || 'min(520px, 100%)';
+      modal.body.style.padding = options && options.bodyPadding != null ? options.bodyPadding : '24px';
+
+      if (typeof contentNodeOrHtml === 'string') {
+        modal.body.innerHTML = contentNodeOrHtml;
+      } else if (contentNodeOrHtml instanceof Node) {
+        modal.body.appendChild(contentNodeOrHtml);
+      }
+
+      modal.overlay.style.visibility = 'visible';
+      modal.overlay.style.opacity = '1';
+      modal.panel.style.transform = 'translateY(0) scale(1)';
+      modal.panel.style.opacity = '1';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // ============================================================
+    // 按钮交互：hover 浮起、点击回弹、视觉反馈
+    // ============================================================
+    primaryButtons.forEach(function (button) {
+      var originalTransition = button.style.transition;
+      button.style.transition = originalTransition
+        ? originalTransition + ', transform 180ms ease, box-shadow 180ms ease, filter 180ms ease'
+        : 'transform 180ms ease, box-shadow 180ms ease, filter 180ms ease';
+
+      button.addEventListener('mouseenter', function () {
+        button.style.transform = 'translateY(-2px)';
+        button.style.filter = 'brightness(1.03)';
+        button.style.boxShadow = '0 12px 24px rgba(29, 78, 216, 0.18)';
+      });
+
+      button.addEventListener('mouseleave', function () {
+        button.style.transform = '';
+        button.style.filter = '';
+        button.style.boxShadow = '';
+      });
+
+      button.addEventListener('mousedown', function () {
+        button.style.transform = 'translateY(0) scale(0.97)';
+      });
+
+      button.addEventListener('mouseup', function () {
+        button.style.transform = 'translateY(-2px)';
+      });
+    });
+
+    // ============================================================
+    // 导航交互：平滑滚动、激活态同步、滚动后吸顶状态切换
+    // ============================================================
+    function syncNavbarFrame() {
+      if (!navbar || !page) return;
+
+      var pageRect = page.getBoundingClientRect();
+      var shouldStick = window.scrollY > 24;
+
+      navbar.style.transition = 'background 220ms ease, box-shadow 220ms ease, transform 220ms ease, border-color 220ms ease';
+
+      if (shouldStick) {
+        navbar.style.position = 'fixed';
+        navbar.style.top = '0';
+        navbar.style.left = pageRect.left + 'px';
+        navbar.style.width = pageRect.width + 'px';
+        navbar.style.background = '#E2E8F0';
+        navbar.style.boxShadow = '0 12px 36px rgba(15, 23, 42, 0.08)';
+        navbar.style.borderBottomColor = 'rgba(226, 232, 240, 1)';
+      } else {
+        navbar.style.position = 'absolute';
+        navbar.style.top = '0';
+        navbar.style.left = '0';
+        navbar.style.width = '100%';
+        navbar.style.background = '#E2E8F0';
+        navbar.style.boxShadow = '';
+        navbar.style.borderBottomColor = '#e2e8f0';
+      }
+    }
+
+    function setActiveNav(link) {
+      navLinks.forEach(function (item) {
+        item.style.color = '#09090b';
+        item.style.opacity = '0.66';
+        item.style.transform = 'translateY(0)';
+        item.style.transition = 'color 180ms ease, opacity 180ms ease, transform 180ms ease';
+      });
+
+      if (link) {
+        link.style.color = '#1d4ed8';
+        link.style.opacity = '1';
+        link.style.transform = 'translateY(-1px)';
+      }
+    }
+
+    function closeMobileNav() {
+      if (!navbar || !navbarToggle) return;
+      navbar.classList.remove('mobile-open');
+      navbarToggle.setAttribute('aria-expanded', 'false');
+      navbarToggle.setAttribute('aria-label', '打开导航菜单');
+      document.body.classList.remove('mobile-nav-open');
+    }
+
+    if (navbarToggle && navbar) {
+      navbarToggle.addEventListener('click', function () {
+        var isOpen = navbar.classList.toggle('mobile-open');
+        navbarToggle.setAttribute('aria-expanded', String(isOpen));
+        navbarToggle.setAttribute('aria-label', isOpen ? '关闭导航菜单' : '打开导航菜单');
+        document.body.classList.toggle('mobile-nav-open', isOpen);
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!navbar.classList.contains('mobile-open')) return;
+        if (navbar.contains(event.target)) return;
+        closeMobileNav();
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeMobileNav();
+      });
+    }
+
+    navLinks.forEach(function (link) {
+      var targetSection = sectionMap[link.textContent.trim()];
+
+      link.addEventListener('mouseenter', function () {
+        if (link.style.color !== 'rgb(29, 78, 216)') {
+          link.style.opacity = '1';
+        }
+      });
+
+      link.addEventListener('mouseleave', function () {
+        if (link.style.color !== 'rgb(29, 78, 216)') {
+          link.style.opacity = '0.66';
+        }
+      });
+
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (!targetSection) return;
+
+        var offset = navbar ? navbar.offsetHeight + 24 : 88;
+        var targetY = targetSection.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        setActiveNav(link);
+        closeMobileNav();
+      });
+    });
+
+    var sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+
+        var matchedLink = navLinks.find(function (link) {
+          return sectionMap[link.textContent.trim()] === entry.target;
+        });
+
+        if (matchedLink) {
+          setActiveNav(matchedLink);
+        }
+      });
+    }, {
+      threshold: 0.35,
+      rootMargin: '-20% 0px -35% 0px'
+    });
+
+    Object.keys(sectionMap).forEach(function (key) {
+      if (sectionMap[key]) sectionObserver.observe(sectionMap[key]);
+    });
+
+    // ============================================================
+    // 滚动出现：区块淡入上滑，增强页面层次感
+    // ============================================================
+    revealTargets.forEach(function (target, index) {
+      target.style.opacity = '0';
+      target.style.transform = 'translateY(32px)';
+      target.style.transition = 'opacity 700ms ease, transform 700ms ease';
+      target.style.transitionDelay = Math.min(index * 30, 240) + 'ms';
+    });
+
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        revealObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.16,
+      rootMargin: '0px 0px -12% 0px'
+    });
+
+    revealTargets.forEach(function (target) {
+      revealObserver.observe(target);
+    });
+
+    // ============================================================
+    // 数字滚动：进入视口后从 0 平滑递增到目标值
+    // 仅处理单一数值格式，避免误伤复杂文案
+    // ============================================================
+    function animateCount(node) {
+      if (!node || node.dataset.countAnimated === 'true') return;
+
+      var text = node.textContent.trim();
+      var match = text.match(/^([^\d]*)(\d+(?:\.\d+)?)([^\d]*)$/);
+
+      if (!match) return;
+
+      var prefix = match[1];
+      var numericText = match[2];
+      var suffix = match[3];
+      var targetValue = parseFloat(numericText);
+      var decimals = (numericText.split('.')[1] || '').length;
+      var duration = 1600;
+      var startTime = null;
+
+      node.dataset.countAnimated = 'true';
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = clamp((timestamp - startTime) / duration, 0, 1);
+        var eased = easeOutCubic(progress);
+        var currentValue = targetValue * eased;
+        var displayValue = decimals ? currentValue.toFixed(decimals) : Math.round(currentValue).toString();
+        node.textContent = prefix + displayValue + suffix;
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          node.textContent = text;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    var counterNodes = Array.from(document.querySelectorAll('.hero__stat-num, .sstat__num, .pc__price-num'));
+    var counterObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        animateCount(entry.target);
+        counterObserver.unobserve(entry.target);
+      });
+    }, {
+      threshold: 0.5
+    });
+
+    counterNodes.forEach(function (node) {
+      counterObserver.observe(node);
+    });
+
+    // ============================================================
+    // 视差效果：随滚动轻微位移，保持现代感且不影响阅读
+    // ============================================================
+    var ticking = false;
+
+    function runParallax() {
+      var scrollY = window.scrollY || window.pageYOffset;
+
+      parallaxTargets.forEach(function (item) {
+        var element = item.element;
+        if (!element) return;
+
+        var offset = scrollY * item.speed;
+        element.style.willChange = 'transform';
+        element.style.transform = 'translate3d(0, ' + offset.toFixed(2) + 'px, 0)';
+      });
+
+      syncNavbarFrame();
+      toggleScrollTopButton();
+      ticking = false;
+    }
+
+    function requestParallax() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(runParallax);
+    }
+
+    // ============================================================
+    // 回到顶部：滚动一定距离后显示，点击平滑返回
+    // ============================================================
+    function toggleScrollTopButton() {
+      if (!scrollTopButton) return;
+
+      var visible = window.scrollY > 480;
+      scrollTopButton.style.transition = 'opacity 220ms ease, transform 220ms ease';
+      scrollTopButton.style.opacity = visible ? '1' : '0';
+      scrollTopButton.style.pointerEvents = visible ? 'auto' : 'none';
+      scrollTopButton.style.transform = visible ? 'translateY(0)' : 'translateY(10px)';
+    }
+
+    if (scrollTopButton) {
+      scrollTopButton.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+      toggleScrollTopButton();
+    }
+
+    // ============================================================
+    // 表单交互：为现有展示字段添加可编辑、聚焦反馈、提交校验
+    // 不改 HTML 结构，直接增强已有节点
+    // ============================================================
+    function makeEditableField(container, options) {
+      if (!container) return null;
+
+      var textNode = container.querySelector('p, span');
+      if (!textNode) return null;
+
+      var placeholder = (options && options.placeholder) || textNode.textContent.trim();
+      var multiline = Boolean(options && options.multiline);
+
+      container.dataset.placeholder = placeholder;
+      container.dataset.value = '';
+      container.style.transition = 'border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease';
+      container.style.cursor = 'text';
+
+      textNode.contentEditable = 'true';
+      textNode.spellcheck = false;
+      textNode.textContent = placeholder;
+      textNode.style.outline = 'none';
+      textNode.style.whiteSpace = multiline ? 'pre-wrap' : 'nowrap';
+      textNode.style.color = '#94a3b8';
+      textNode.style.width = '100%';
+
+      if (multiline) {
+        textNode.style.minHeight = '96px';
+      }
+
+      function focusField() {
+        container.style.borderColor = '#1d4ed8';
+        container.style.boxShadow = '0 0 0 4px rgba(29, 78, 216, 0.10)';
+        container.style.transform = 'translateY(-1px)';
+
+        if (textNode.textContent.trim() === placeholder) {
+          textNode.textContent = '';
+          textNode.style.color = '#0f172a';
+        }
+      }
+
+      function blurField() {
+        var value = textNode.textContent.replace(/\u00a0/g, ' ').trim();
+        container.style.borderColor = '';
+        container.style.boxShadow = '';
+        container.style.transform = '';
+
+        if (!value) {
+          textNode.textContent = placeholder;
+          textNode.style.color = '#94a3b8';
+          container.dataset.value = '';
+        } else {
+          container.dataset.value = value;
+          textNode.style.color = '#0f172a';
+        }
+      }
+
+      container.addEventListener('click', function () {
+        textNode.focus();
+      });
+
+      textNode.addEventListener('focus', focusField);
+      textNode.addEventListener('blur', blurField);
+
+      if (!multiline) {
+        textNode.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            textNode.blur();
+          }
+        });
+      }
+
+      return {
+        container: container,
+        textNode: textNode,
+        getValue: function () {
+          return container.dataset.value || '';
+        },
+        setValue: function (value) {
+          container.dataset.value = value;
+          textNode.textContent = value;
+          textNode.style.color = '#0f172a';
+        }
+      };
+    }
+
+    var formFields = [
+      makeEditableField(document.querySelectorAll('.finput')[0]),
+      makeEditableField(document.querySelectorAll('.finput')[1]),
+      makeEditableField(document.querySelector('.finput.finput--full')),
+      makeEditableField(document.querySelector('.finput.finput--full.finput--area'), { multiline: true }),
+      makeEditableField(document.querySelector('.footer__email-in'))
+    ].filter(Boolean);
+
+    function setEditableFieldValue(field, value) {
+      if (!field) return;
+      field.setValue(value);
+      if (!value && field.container && field.textNode) {
+        field.textNode.textContent = field.container.dataset.placeholder || '';
+        field.textNode.style.color = '#94a3b8';
+      }
+    }
+
+    var requirementField = document.querySelectorAll('.finput.finput--full')[1];
+    var requirementText = requirementField ? requirementField.querySelector('p') : null;
+    var salesDemandOptions = [
+      '模型训练集群',
+      '高并发推理服务',
+      '企业私有化部署',
+      'GPU 弹性租赁',
+      '混合云迁移方案'
+    ];
+
+    function buildDemandList() {
+      var wrapper = document.createElement('div');
+      var desc = document.createElement('p');
+      desc.textContent = '请选择您当前最关注的计算需求，我们会在后续沟通中优先安排。';
+      desc.style.marginBottom = '16px';
+
+      var list = document.createElement('div');
+      Object.assign(list.style, {
+        display: 'grid',
+        gap: '12px'
+      });
+
+      salesDemandOptions.forEach(function (label) {
+        var item = document.createElement('button');
+        item.type = 'button';
+        item.textContent = label;
+        Object.assign(item.style, {
+          textAlign: 'left',
+          padding: '14px 16px',
+          borderRadius: '12px',
+          background: 'rgba(29, 78, 216, 0.06)',
+          color: '#1e293b',
+          fontSize: '15px',
+          transition: 'transform 180ms ease, background 180ms ease'
+        });
+
+        item.addEventListener('mouseenter', function () {
+          item.style.transform = 'translateY(-2px)';
+          item.style.background = 'rgba(29, 78, 216, 0.12)';
+        });
+
+        item.addEventListener('mouseleave', function () {
+          item.style.transform = '';
+          item.style.background = 'rgba(29, 78, 216, 0.06)';
+        });
+
+        item.addEventListener('click', function () {
+          if (requirementField && requirementText) {
+            requirementField.dataset.value = label;
+            requirementText.textContent = label;
+            requirementText.style.color = '#0f172a';
+          }
+          ensureModal().close();
+        });
+
+        list.appendChild(item);
+      });
+
+      wrapper.appendChild(desc);
+      wrapper.appendChild(list);
+      return wrapper;
+    }
+
+    if (requirementField) {
+      requirementField.style.cursor = 'pointer';
+      requirementField.addEventListener('click', function () {
+        openModal('选择计算需求', buildDemandList());
+      });
+    }
+
+    function getInlineSalesFormData() {
+      return {
+        name: formFields[0] ? formFields[0].getValue() : '',
+        email: formFields[1] ? formFields[1].getValue() : '',
+        company: formFields[2] ? formFields[2].getValue() : '',
+        demand: requirementField ? (requirementField.dataset.value || '') : '',
+        detail: formFields[3] ? formFields[3].getValue() : ''
+      };
+    }
+
+    function syncInlineSalesForm(data) {
+      if (!data) return;
+
+      setEditableFieldValue(formFields[0], data.name || '');
+      setEditableFieldValue(formFields[1], data.email || '');
+      setEditableFieldValue(formFields[2], data.company || '');
+      setEditableFieldValue(formFields[3], data.detail || '');
+
+      if (requirementField && requirementText) {
+        requirementField.dataset.value = data.demand || '';
+        requirementText.textContent = data.demand || '主要计算需求';
+        requirementText.style.color = data.demand ? '#0f172a' : '#94a3b8';
+      }
+    }
+
+    function buildSalesLeadModal() {
+      var currentData = getInlineSalesFormData();
+      var shell = document.createElement('div');
+      shell.className = 'sales-modal__shell';
+
+      var title = document.createElement('h3');
+      title.className = 'sales-modal__title';
+      title.textContent = '联系算力销售团队';
+
+      var form = document.createElement('form');
+      var grid = document.createElement('div');
+      grid.className = 'sales-modal__grid';
+
+      var nameInput = document.createElement('input');
+      nameInput.className = 'sales-modal__field';
+      nameInput.type = 'text';
+      nameInput.placeholder = '您的姓名';
+      nameInput.value = currentData.name || '';
+
+      var emailInput = document.createElement('input');
+      emailInput.className = 'sales-modal__field';
+      emailInput.type = 'email';
+      emailInput.placeholder = '工作邮箱';
+      emailInput.value = currentData.email || '';
+
+      var companyInput = document.createElement('input');
+      companyInput.className = 'sales-modal__field sales-modal__field--full';
+      companyInput.type = 'text';
+      companyInput.placeholder = '公司名称';
+      companyInput.value = currentData.company || '';
+
+      var demandSelect = document.createElement('select');
+      demandSelect.className = 'sales-modal__select';
+
+      var placeholderOption = document.createElement('option');
+      placeholderOption.value = '';
+      placeholderOption.textContent = '主要计算需求';
+      demandSelect.appendChild(placeholderOption);
+
+      salesDemandOptions.forEach(function (label) {
+        var option = document.createElement('option');
+        option.value = label;
+        option.textContent = label;
+        option.selected = currentData.demand === label;
+        demandSelect.appendChild(option);
+      });
+
+      var detailInput = document.createElement('textarea');
+      detailInput.className = 'sales-modal__textarea';
+      detailInput.placeholder = '请告诉我们您的工作负载、框架要求和预估规模...';
+      detailInput.value = currentData.detail || '';
+
+      var error = document.createElement('div');
+      error.className = 'sales-modal__error';
+
+      var submitButton = document.createElement('button');
+      submitButton.type = 'submit';
+      submitButton.className = 'btn-submit';
+      submitButton.innerHTML = '<span>申请免费试用</span><img src="assets/icon-arrow.svg" alt="">';
+
+      var privacy = document.createElement('p');
+      privacy.className = 'form-privacy';
+      privacy.textContent = '提交此表格即表示您同意我们的隐私政策和服务条款。';
+
+      var success = document.createElement('div');
+      success.className = 'sales-modal__success';
+
+      grid.appendChild(nameInput);
+      grid.appendChild(emailInput);
+      form.appendChild(grid);
+      form.appendChild(companyInput);
+      form.appendChild(demandSelect);
+      form.appendChild(detailInput);
+      form.appendChild(error);
+      form.appendChild(submitButton);
+      form.appendChild(privacy);
+
+      shell.appendChild(title);
+      shell.appendChild(form);
+      shell.appendChild(success);
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var data = {
+          name: nameInput.value.trim(),
+          email: emailInput.value.trim(),
+          company: companyInput.value.trim(),
+          demand: demandSelect.value.trim(),
+          detail: detailInput.value.trim()
+        };
+
+        if (!data.name) {
+          error.textContent = '请先填写您的姓名。';
+          nameInput.focus();
+          return;
+        }
+
+        if (!isValidEmail(data.email)) {
+          error.textContent = '请输入有效的工作邮箱。';
+          emailInput.focus();
+          return;
+        }
+
+        if (!data.company) {
+          error.textContent = '请补充公司名称，方便销售团队快速跟进。';
+          companyInput.focus();
+          return;
+        }
+
+        if (!data.demand) {
+          error.textContent = '请选择主要计算需求。';
+          demandSelect.focus();
+          return;
+        }
+
+        error.textContent = '';
+        syncInlineSalesForm(data);
+
+        form.style.display = 'none';
+        success.style.display = 'block';
+        success.innerHTML =
+          '<strong>免费试用申请已提交</strong>'
+          + '<p>我们的算力销售团队会尽快与您联系，并为您准备更合适的方案建议。</p>'
+          + '<div class="sales-modal__summary">'
+          + '<p><strong>姓名：</strong>' + escapeHtml(data.name) + '</p>'
+          + '<p><strong>邮箱：</strong>' + escapeHtml(data.email) + '</p>'
+          + '<p><strong>公司：</strong>' + escapeHtml(data.company) + '</p>'
+          + '<p><strong>需求：</strong>' + escapeHtml(data.demand) + '</p>'
+          + (data.detail ? '<p><strong>补充说明：</strong>' + escapeHtml(data.detail) + '</p>' : '')
+          + '</div>';
+      });
+
+      return shell;
+    }
+
+    var salesActions = Array.from(document.querySelectorAll('.btn-primary, .btn-submit, .navbar__console'));
+    salesActions.forEach(function (button) {
+      button.addEventListener('click', function (event) {
+        if (button.classList.contains('nav-btn') || button.classList.contains('scroll-top')) return;
+        event.preventDefault();
+
+        if (button.dataset.salesTrigger) {
+          openModal(
+            '联系算力销售团队',
+            buildSalesLeadModal(),
+            { width: 'min(760px, 100%)', bodyPadding: '0' }
+          );
+          return;
+        }
+
+        var inlineData = getInlineSalesFormData();
+        var nameValue = inlineData.name;
+        var emailValue = inlineData.email;
+        var companyValue = inlineData.company;
+        var demandValue = inlineData.demand;
+        var detailValue = inlineData.detail;
+        var hasFormContent = nameValue || emailValue || companyValue || demandValue || detailValue;
+
+        if (button.classList.contains('btn-submit') && (!nameValue || !isValidEmail(emailValue) || !demandValue)) {
+          openModal('请先补充信息', '<p>建议先填写姓名、工作邮箱和主要需求，我们会基于这些内容为您准备更准确的方案建议。</p>');
+          return;
+        }
+
+        var message = hasFormContent
+          ? '<p>我们已收到您的意向信息，销售团队会尽快联系您。</p>'
+            + '<p style="margin-top:12px;color:#0f172a;"><strong>姓名：</strong>' + (nameValue || '未填写') + '<br>'
+            + '<strong>邮箱：</strong>' + (emailValue || '未填写') + '<br>'
+            + '<strong>公司：</strong>' + (companyValue || '未填写') + '<br>'
+            + '<strong>需求：</strong>' + (demandValue || '未选择') + '</p>'
+          : '<p>欢迎联系诺勤销售团队。您可以直接在页面表单中填写需求，或继续浏览产品与定价后再提交。</p>';
+
+        openModal('销售咨询', message);
+      });
+    });
+
+    var subscribeButton = document.querySelector('.footer__sub-btn');
+    if (subscribeButton) {
+      subscribeButton.addEventListener('click', function () {
+        var newsletterField = formFields[4];
+        var email = newsletterField ? newsletterField.getValue() : '';
+        openModal(
+          email ? '订阅成功' : '订阅提示',
+          email
+            ? '<p>邮箱 <strong>' + email + '</strong> 已加入订阅列表，后续更新会第一时间发送给您。</p>'
+            : '<p>请先在页脚输入工作邮箱，再点击订阅即可完成登记。</p>'
+        );
+      });
+    }
+
+    // ============================================================
+    // 产品/案例卡片导航按钮：在同区块内横向滚动并带动画
+    // ============================================================
+    Array.from(document.querySelectorAll('.sec-nav')).forEach(function (navGroup) {
+      var cardsContainer = navGroup.parentElement && navGroup.parentElement.nextElementSibling;
+      if (!cardsContainer) return;
+
+      var buttons = navGroup.querySelectorAll('.nav-btn');
+      var prevButton = buttons[0];
+      var nextButton = buttons[1];
+
+      cardsContainer.style.scrollBehavior = 'smooth';
+
+      if (prevButton) {
+        prevButton.addEventListener('click', function () {
+          cardsContainer.scrollBy({ left: -Math.min(cardsContainer.clientWidth * 0.75, 640), behavior: 'smooth' });
+        });
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', function () {
+          cardsContainer.scrollBy({ left: Math.min(cardsContainer.clientWidth * 0.75, 640), behavior: 'smooth' });
+        });
+      }
+    });
+
+    // ============================================================
+    // 产品卡片悬停：鼠标移到哪个，哪个高亮
+    // ============================================================
+    var productCardsWrap = document.querySelector('.products__cards');
+    var productCards = productCardsWrap ? Array.from(productCardsWrap.querySelectorAll('.pcard')) : [];
+    var defaultActiveProductCard = productCards.find(function (card) {
+      return card.classList.contains('pcard--blue');
+    }) || productCards[0];
+
+    function setActiveProductCard(targetCard) {
+      productCards.forEach(function (card) {
+        var isActive = card === targetCard;
+        card.classList.toggle('pcard--blue', isActive);
+        card.classList.toggle('pcard--white', !isActive);
+        card.style.transform = isActive ? 'translateY(-2px)' : 'translateY(0)';
+      });
+    }
+
+    if (productCards.length) {
+      setActiveProductCard(defaultActiveProductCard);
+
+      productCards.forEach(function (card) {
+        card.addEventListener('mouseenter', function () {
+          setActiveProductCard(card);
+        });
+
+        card.addEventListener('focusin', function () {
+          setActiveProductCard(card);
+        });
+      });
+
+      productCardsWrap.addEventListener('mouseleave', function () {
+        setActiveProductCard(defaultActiveProductCard);
+      });
+    }
+
+    // ============================================================
+    // 应用场景卡片悬停：交互与核心产品组件保持一致
+    // ============================================================
+    var solutionCardsWrap = document.querySelector('.solutions__cards');
+    var solutionCards = solutionCardsWrap ? Array.from(solutionCardsWrap.querySelectorAll('.scard')) : [];
+    var defaultActiveSolutionCard = solutionCards.find(function (card) {
+      return card.classList.contains('scard--blue');
+    }) || solutionCards[0];
+
+    function setActiveSolutionCard(targetCard) {
+      solutionCards.forEach(function (card) {
+        var isActive = card === targetCard;
+        card.classList.toggle('scard--blue', isActive);
+        card.classList.toggle('scard--white', !isActive);
+        card.style.transform = isActive ? 'translateY(-2px)' : 'translateY(0)';
+      });
+    }
+
+    if (solutionCards.length) {
+      setActiveSolutionCard(defaultActiveSolutionCard);
+
+      solutionCards.forEach(function (card) {
+        card.addEventListener('mouseenter', function () {
+          setActiveSolutionCard(card);
+        });
+
+        card.addEventListener('focusin', function () {
+          setActiveSolutionCard(card);
+        });
+      });
+
+      solutionCardsWrap.addEventListener('mouseleave', function () {
+        setActiveSolutionCard(defaultActiveSolutionCard);
+      });
+    }
+
+    // ============================================================
+    // 定价 Tab：点击后转移高亮状态
+    // ============================================================
+    var pricingTabs = Array.from(document.querySelectorAll('.pricing__tab'));
+    var pricingPanels = Array.from(document.querySelectorAll('.pricing__panel'));
+    pricingTabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        pricingTabs.forEach(function (item) {
+          item.classList.remove('pricing__tab--active');
+        });
+        tab.classList.add('pricing__tab--active');
+        var targetPanel = tab.getAttribute('data-panel-target');
+        pricingPanels.forEach(function (panel) {
+          panel.style.display = panel.getAttribute('data-panel') === targetPanel ? '' : 'none';
+        });
+      });
+    });
+
+    // ============================================================
+    // 定价套餐卡：鼠标移到哪个模块，哪个模块高亮
+    // 交互风格与核心产品组件卡片保持一致
+    // ============================================================
+    var pricingCardsWrap = document.querySelector('.pricing__cards');
+    var pricingCards = pricingCardsWrap ? Array.from(pricingCardsWrap.querySelectorAll('.pc')) : [];
+
+    function setActivePricingCard(activeCard) {
+      pricingCards.forEach(function (card) {
+        card.classList.toggle('pc--active', card === activeCard);
+      });
+    }
+
+    if (pricingCards.length) {
+      pricingCards.forEach(function (card) {
+        card.addEventListener('mouseenter', function () {
+          setActivePricingCard(card);
+        });
+
+        card.addEventListener('focusin', function () {
+          setActivePricingCard(card);
+        });
+      });
+
+      pricingCardsWrap.addEventListener('mouseleave', function () {
+        setActivePricingCard(null);
+      });
+    }
+
+    // ============================================================
+    // Token 模型分类标签切换 + 筛选
+    // ============================================================
+    var tokenTabs = Array.from(document.querySelectorAll('.token-tabs__item'));
+    var tokenCards = Array.from(document.querySelectorAll('.token-grid .tcard'));
+    tokenCards.forEach(function (card) {
+      if (card.style.display === 'none') {
+        card.classList.add('tcard--hidden');
+      }
+    });
+
+    var tokenGrid = document.querySelector('.token-grid');
+    var tokenLoopTimer = null;
+    var tokenLoopResumeTimer = null;
+
+    function stopTokenLoop() {
+      if (tokenLoopTimer) {
+        window.clearInterval(tokenLoopTimer);
+        tokenLoopTimer = null;
+      }
+    }
+
+    function scheduleTokenLoopResume() {
+      if (tokenLoopResumeTimer) {
+        window.clearTimeout(tokenLoopResumeTimer);
+      }
+      tokenLoopResumeTimer = window.setTimeout(function () {
+        startTokenLoop();
+      }, 1400);
+    }
+
+    function startTokenLoop() {
+      stopTokenLoop();
+      if (tokenLoopResumeTimer) {
+        window.clearTimeout(tokenLoopResumeTimer);
+        tokenLoopResumeTimer = null;
+      }
+      if (!tokenGrid || window.innerWidth > 768) return;
+
+      tokenLoopTimer = window.setInterval(function () {
+        var maxScrollLeft = tokenGrid.scrollWidth - tokenGrid.clientWidth;
+        if (maxScrollLeft <= 0) return;
+
+        var nextLeft = tokenGrid.scrollLeft + 1;
+        if (nextLeft >= maxScrollLeft) {
+          tokenGrid.scrollLeft = 0;
+          return;
+        }
+        tokenGrid.scrollLeft = nextLeft;
+      }, 18);
+    }
+
+    if (tokenGrid) {
+      ['touchstart', 'pointerdown', 'mousedown', 'wheel'].forEach(function (eventName) {
+        tokenGrid.addEventListener(eventName, function () {
+          if (window.innerWidth > 768) return;
+          stopTokenLoop();
+          scheduleTokenLoopResume();
+        }, { passive: true });
+      });
+
+      tokenGrid.addEventListener('scroll', function () {
+        if (window.innerWidth > 768) return;
+        stopTokenLoop();
+        scheduleTokenLoopResume();
+      }, { passive: true });
+
+      ['touchend', 'pointerup', 'mouseup', 'mouseleave'].forEach(function (eventName) {
+        tokenGrid.addEventListener(eventName, function () {
+          if (window.innerWidth > 768) return;
+          scheduleTokenLoopResume();
+        }, { passive: true });
+      });
+    }
+
+    tokenTabs.forEach(function (tab) {
+      tab.addEventListener('click', function (e) {
+        e.preventDefault();
+        tokenTabs.forEach(function (item) { item.classList.remove('token-tabs__item--active'); });
+        tab.classList.add('token-tabs__item--active');
+        var filter = tab.getAttribute('data-filter');
+        tokenCards.forEach(function (card) {
+          if (card.classList.contains('tcard--hidden')) {
+            card.style.display = 'none';
+            return;
+          }
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+        startTokenLoop();
+      });
+    });
+
+    // ============================================================
+    // 初始化执行
+    // ============================================================
+    setActiveNav(navLinks[0] || null);
+    syncNavbarFrame();
+    toggleScrollTopButton();
+    requestParallax();
+    startTokenLoop();
+
+    window.addEventListener('scroll', requestParallax, { passive: true });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768) closeMobileNav();
+      syncNavbarFrame();
+      startTokenLoop();
+    });
+  });
+</script>
+</body>
+</html>
+
