@@ -1326,16 +1326,850 @@
       }
       .scroll-top { right: 16px; bottom: 16px; width: 48px; height: 48px; }
     }
+    /* ================================================================
+       NAVBAR + PRICING REBUILD OVERRIDES
+    ================================================================ */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      min-height: 72px;
+      padding: 16px clamp(20px, 4vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.18);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: none;
+      transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+    .navbar--solid {
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom-color: rgba(226, 232, 240, 0.94);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    }
+    .navbar__brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+    .navbar__logo {
+      display: inline-flex;
+      align-items: center;
+      background: none;
+      -webkit-text-fill-color: initial;
+    }
+    .navbar__logo-img {
+      width: auto;
+      height: 40px;
+      display: block;
+      object-fit: contain;
+    }
+    .navbar__right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      min-width: 0;
+    }
+    .navbar__menu,
+    .navbar__actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .navbar__link {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1f2937;
+      opacity: 0.84;
+      transition: color 180ms ease, opacity 180ms ease;
+    }
+    .navbar__link:hover {
+      color: #1d4ed8;
+      opacity: 1;
+    }
+    .navbar__sep {
+      width: 1px;
+      height: 24px;
+      background: rgba(148, 163, 184, 0.35);
+    }
+    .navbar__lang {
+      padding: 8px 14px;
+      gap: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.48);
+      border: 1px solid rgba(255, 255, 255, 0.46);
+    }
+    .navbar__lang span {
+      font-size: 13px;
+      color: #475569;
+    }
+    .navbar__console {
+      padding: 10px 18px;
+      border-radius: 10px;
+      background: #1d4ed8;
+    }
+    .navbar__console span {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .pricing {
+      position: relative;
+      background: #f6f9fc;
+      padding: 80px var(--section-x);
+      overflow: visible;
+      isolation: isolate;
+    }
+    .pricing__corner-gpu,
+    .pricing__deco {
+      pointer-events: none;
+      user-select: none;
+    }
+    .pricing__corner-gpu {
+      position: absolute;
+      top: -64px;
+      left: 0;
+      width: 513px;
+      height: 513px;
+      object-fit: contain;
+      opacity: 0;
+      z-index: 1;
+      transform: translate3d(0, 24px, 0);
+      transition: opacity 640ms ease, transform 640ms ease;
+    }
+    .pricing.is-corner-gpu-visible .pricing__corner-gpu {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+    .pricing__deco {
+      position: absolute;
+      right: -68px;
+      bottom: -176px;
+      width: 552px;
+      height: 552px;
+      opacity: 0.85;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .pricing__deco img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .pricing__tab-bar {
+      position: relative;
+      z-index: 2;
+      height: 80px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 0 24px 0 0;
+    }
+    .pricing__tab-left {
+      position: absolute;
+      inset: 0 404px 0 0;
+      background: #1f1f1f;
+      border-top-right-radius: 24px;
+    }
+    .pricing__tab-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 404px;
+      background: #f6f9fc;
+    }
+    .pricing__tab-right-inner {
+      position: absolute;
+      inset: 0;
+      height: 80px;
+      background: #f6f9fc;
+      border-bottom-left-radius: 24px;
+    }
+    .pricing__body {
+      position: relative;
+      z-index: 0;
+      width: 100%;
+      overflow: hidden;
+      background: #1f1f1f;
+      border-radius: 0 24px 24px 24px;
+      padding: 80px 0 0;
+    }
+    .pricing__header,
+    .pricing__content {
+      position: relative;
+      z-index: 2;
+    }
+    .pricing__header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 21px;
+      padding: 0 clamp(24px, 7vw, 128px);
+      text-align: center;
+    }
+    .pricing__title-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 42px;
+      letter-spacing: 0.3691px;
+    }
+    .pricing__title-dark {
+      font-weight: 700;
+      color: #fff;
+    }
+    .pricing__title-grad {
+      font-weight: 600;
+      background: linear-gradient(90deg, #c7d4f7 0%, #51a2ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pricing__subtitle {
+      max-width: 780px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #dedede;
+      letter-spacing: -0.2922px;
+    }
+    .pricing__content {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+      padding: 80px 96px;
+    }
+    .pricing__tabs {
+      display: flex;
+      align-items: stretch;
+      gap: 64px;
+      width: 100%;
+    }
+    .pricing__tab {
+      flex: 1 1 0;
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 40px;
+      border-radius: 20px;
+      border: 0;
+      background: transparent;
+      opacity: 0.82;
+      transition: background 220ms ease, transform 220ms ease, opacity 220ms ease;
+    }
+    .pricing__tab img {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .pricing__tab-label {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.3691px;
+      white-space: nowrap;
+      background: linear-gradient(90deg, #c7d4f7 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pricing__tab--active {
+      background: #1d4ed8;
+      opacity: 1;
+    }
+    .pricing__tab:not(.pricing__tab--active):hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+    .pricing__panels {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+      width: 100%;
+    }
+    .pricing__panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      background: transparent;
+      border-radius: 0;
+      backdrop-filter: none;
+    }
+    .pricing__section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      width: 100%;
+    }
+    .pricing__section-head-main {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+    .pricing__section-head-main img {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+    }
+    .pricing__section-title {
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.3691px;
+      text-align: left;
+      background: linear-gradient(90deg, #c7d4f7 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pricing__section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #484848;
+      background: #262626;
+      flex-shrink: 0;
+    }
+    .pricing__section-tag img {
+      width: 16px;
+      height: 16px;
+    }
+    .pricing__section-tag span {
+      font-size: 14px;
+      line-height: 1;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+    .pricing__section-divider {
+      width: 100%;
+      height: 1px;
+      background: #484848;
+    }
+
+    .token-gallery-shell {
+      position: relative;
+      width: 100%;
+      min-height: 420px;
+      overflow: hidden;
+      background: transparent;
+    }
+    .token-gallery-stage {
+      position: relative;
+      width: 100%;
+      height: 420px;
+      touch-action: pan-y;
+      cursor: grab;
+    }
+    .token-gallery-stage.is-dragging {
+      cursor: grabbing;
+    }
+    .token-orbit-card {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: min(320px, calc((100% - 36px) / 3));
+      min-width: 248px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #262626;
+      box-shadow: 0 18px 42px rgba(4, 10, 24, 0.16);
+      transform-origin: center center;
+      transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), opacity 280ms ease, z-index 280ms ease;
+      will-change: transform, opacity;
+    }
+    .token-orbit-card__media {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 236px;
+      padding: 22px 24px 28px;
+      background: #ffffff;
+    }
+    .token-orbit-card__media::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 26px;
+      width: 44%;
+      height: 18px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(15, 23, 42, 0.16) 0%, rgba(15, 23, 42, 0) 72%);
+      filter: blur(8px);
+      opacity: 0.7;
+    }
+    .token-orbit-card__logo {
+      position: relative;
+      z-index: 1;
+      width: auto;
+      height: auto;
+      max-width: 128px;
+      max-height: 128px;
+      object-fit: contain;
+      transform: translateY(-6px);
+      filter: drop-shadow(0 18px 20px rgba(15, 23, 42, 0.08)) drop-shadow(0 4px 8px rgba(15, 23, 42, 0.06));
+    }
+    .token-orbit-card__logo--deepseek {
+      max-width: 128px;
+      max-height: 128px;
+    }
+    .token-orbit-card__logo--qwen,
+    .token-orbit-card__logo--kimi,
+    .token-orbit-card__logo--zhipu,
+    .token-orbit-card__logo--minimax {
+      max-width: 104px;
+      max-height: 104px;
+    }
+    .token-orbit-card__logo--llama {
+      max-width: 116px;
+      max-height: 116px;
+      margin-top: 12px;
+      margin-bottom: 12px;
+    }
+    .token-orbit-card__body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 18px 18px 20px;
+      min-height: 148px;
+    }
+    .token-orbit-card__name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+    }
+    .token-orbit-card__desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #9d9d9d;
+    }
+    .token-gallery-cta {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      margin-top: -8px;
+    }
+
+    .gpu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 24px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .gpu-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+      padding: 24px;
+      border-radius: 12px;
+      background: #262626;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      transition: background 220ms ease, box-shadow 220ms ease, transform 220ms ease;
+    }
+    .gpu-card:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(135deg, #3366ff 1%, #8eb5ff 100%);
+      box-shadow: 0 14px 30px rgba(29, 78, 216, 0.2);
+    }
+    .gpu-card__top {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .gpu-card__title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .gpu-card__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .gpu-card__badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: 4px 8px 4px 8px;
+      background: #303030;
+      border: 0.5px solid #515257;
+      font-size: 12px;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .gpu-card__sub {
+      font-size: 12px;
+      color: #9d9d9d;
+      line-height: 1.5;
+    }
+    .gpu-card__price {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .gpu-card__price-block {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+    }
+    .gpu-card__price-main {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1;
+      background: linear-gradient(90deg, #a7befe 0%, #ffffff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gpu-card__price-unit {
+      font-size: 14px;
+      line-height: 26px;
+      color: #fdfdfd;
+    }
+    .gpu-card__metrics {
+      display: grid;
+      gap: 4px;
+      padding-top: 16px;
+      border-top: 1px solid #484848;
+    }
+    .gpu-card__metric {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .gpu-card__metric-label {
+      font-size: 12px;
+      color: #9d9d9d;
+    }
+    .gpu-card__metric-value {
+      font-size: 14px;
+      color: #fdfdfd;
+      text-align: right;
+    }
+    .gpu-card:hover .gpu-card__sub,
+    .gpu-card:hover .gpu-card__metric-label {
+      color: rgba(255, 255, 255, 0.72);
+    }
+    .gpu-card:hover .gpu-card__metrics {
+      border-top-color: rgba(255, 255, 255, 0.2);
+    }
+    .gpu-card:hover .gpu-card__badge {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.32);
+    }
+    .gpu-card:hover .gpu-card__price-main {
+      background: linear-gradient(90deg, #ffffff 0%, #d8e3ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pricing__panel-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1919px) {
+      .pricing__content {
+        padding-left: 64px;
+        padding-right: 64px;
+      }
+      .token-orbit-card {
+        width: min(300px, calc((100% - 12px) / 3));
+      }
+      .gpu-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 1025px) and (max-width: 1440px) {
+      .pricing__corner-gpu {
+        width: 410px;
+        height: 410px;
+        top: -64px;
+        left: 0;
+      }
+      .pricing__deco {
+        width: 442px;
+        height: 442px;
+        right: -56px;
+        bottom: -144px;
+      }
+    }
+    @media (max-width: 1024px) {
+      .navbar__console {
+        border-radius: 12px;
+      }
+      .pricing {
+        padding: 64px 32px 56px;
+      }
+      .pricing__body {
+        border-radius: 0 24px 24px 24px;
+        padding-top: 56px;
+        padding-bottom: 56px;
+      }
+      .pricing__header {
+        align-items: flex-start;
+        text-align: left;
+      }
+      .pricing__content {
+        gap: 56px;
+        padding: 56px 40px;
+      }
+      .pricing__tabs {
+        display: none;
+      }
+      .pricing--stacked .pricing__panels {
+        gap: 56px;
+      }
+      .pricing__section-head {
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+      .pricing__section-title {
+        line-height: 1.32;
+      }
+      .pricing__corner-gpu {
+        width: 308px;
+        height: 308px;
+        top: -64px;
+        left: 0;
+      }
+      .pricing__deco {
+        display: block;
+        width: 331px;
+        height: 331px;
+        right: -40px;
+        bottom: -114px;
+      }
+      .pricing__tab-bar {
+        height: 64px;
+      }
+      .pricing__tab-left {
+        right: 188px;
+      }
+      .pricing__tab-right {
+        width: 188px;
+      }
+      .pricing__tab-right-inner {
+        height: 64px;
+      }
+      .token-gallery-shell {
+        min-height: 392px;
+      }
+      .token-gallery-stage {
+        height: 392px;
+      }
+      .token-orbit-card {
+        width: min(320px, 74vw);
+        min-width: min(320px, 74vw);
+      }
+      .gpu-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(280px, 72vw);
+        grid-template-columns: none;
+        gap: 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: 8px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+      }
+      .gpu-grid::-webkit-scrollbar {
+        display: none;
+      }
+      .gpu-card {
+        scroll-snap-align: start;
+      }
+      .pricing__panel-actions {
+        justify-content: flex-end;
+      }
+    }
+    @media (max-width: 768px) {
+      .navbar {
+        min-height: 60px;
+        padding: 10px 16px;
+      }
+      .navbar__logo-img {
+        height: 32px;
+      }
+      .navbar__right {
+        gap: 0;
+      }
+      .navbar__menu,
+      .navbar__actions {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .pricing {
+        padding: 40px 20px;
+      }
+      .pricing__tab-bar {
+        height: 48px;
+        border-radius: 0 18px 0 0;
+      }
+      .pricing__tab-left {
+        right: 35%;
+        border-top-right-radius: 18px;
+      }
+      .pricing__tab-right {
+        width: 35%;
+      }
+      .pricing__tab-right-inner {
+        height: 48px;
+        border-bottom-left-radius: 18px;
+      }
+      .pricing__body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+      .pricing__header {
+        gap: 16px;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .pricing__content {
+        gap: 40px;
+        padding: 40px 0;
+      }
+      .pricing__section-head {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .pricing__section-divider,
+      .pricing__panel-actions,
+      .token-gallery-cta {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      .pricing__panel-actions {
+        justify-content: flex-end;
+      }
+      .pricing__title-row {
+        font-size: 30px;
+        line-height: 1.22;
+        align-items: flex-start;
+      }
+      .pricing__title-dark,
+      .pricing__title-grad {
+        display: inline-block;
+      }
+      .pricing__section-title {
+        font-size: 24px;
+      }
+      .pricing__section-tag span {
+        font-size: 13px;
+      }
+      .pricing__corner-gpu {
+        width: 259px;
+        height: 259px;
+        top: -64px;
+        left: 0;
+      }
+      .pricing__deco {
+        width: 280px;
+        height: 280px;
+        right: -28px;
+        bottom: -88px;
+      }
+      .token-gallery-shell {
+        min-height: 368px;
+      }
+      .token-gallery-stage {
+        height: 368px;
+      }
+      .token-orbit-card {
+        width: min(82vw, 292px);
+        min-width: min(82vw, 292px);
+      }
+      .token-orbit-card__media {
+        height: 212px;
+        padding-top: 18px;
+        padding-bottom: 26px;
+      }
+      .token-orbit-card__body {
+        min-height: 142px;
+        padding: 16px 16px 18px;
+      }
+      .gpu-grid {
+        padding-left: 20px;
+        padding-right: 20px;
+        grid-auto-columns: minmax(264px, 84vw);
+      }
+      .gpu-card {
+        padding: 20px;
+      }
+      .gpu-card__title {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
 <div class="page">
 
+  <nav class="navbar" aria-label="主导航">
+    <div class="navbar__brand">
+      <a class="navbar__logo" href="#hero" aria-label="OctoAI 算力服务平台">
+        <img class="navbar__logo-img" src="assets/octoai-logo.png" alt="OctoAI 算力服务平台">
+      </a>
+    </div>
+    <button class="navbar__toggle" type="button" aria-expanded="false" aria-label="打开导航菜单">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="navbar__right">
+      <div class="navbar__menu">
+        <span class="navbar__link">产品及定价</span>
+        <span class="navbar__link">平台优势</span>
+        <span class="navbar__link">帮助文档</span>
+        <span class="navbar__link">联系销售</span>
+      </div>
+      <div class="navbar__actions">
+        <div class="navbar__sep"></div>
+        <div class="navbar__lang">
+          <img src="assets/icon-lang.svg" alt="">
+          <span>中 / EN</span>
+        </div>
+        <button class="navbar__console" type="button">
+          <span>控制台</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
 
   <!-- ============================================================
        HERO SECTION
   ============================================================ -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <img class="hero__bg" src="assets/hero-bg.png" alt="">
     <div class="hero__overlay"></div>
     <div class="hero__content">
@@ -1398,7 +2232,7 @@
   <!-- ============================================================
        PRICING SECTION
   ============================================================ -->
-  <section class="pricing">
+  <section class="pricing pricing--legacy" style="display:none;">
     <img class="pricing__corner-gpu" src="assets/Rectangle.png" alt="">
     <!-- Curved tab at top (dark-to-white corner effect) -->
     <div class="pricing__tab-bar">
@@ -2148,6 +2982,233 @@
     </div>
   </section>
 
+  <section class="pricing pricing--v2" id="pricing">
+    <img class="pricing__corner-gpu" src="assets/Rectangle.png" alt="">
+    <div class="pricing__deco">
+      <img src="assets/pricing-deco.png" alt="">
+    </div>
+    <div class="pricing__tab-bar">
+      <div class="pricing__tab-left"></div>
+      <div class="pricing__tab-right">
+        <div class="pricing__tab-right-inner"></div>
+      </div>
+    </div>
+    <div class="pricing__body">
+      <div class="pricing__header">
+        <div class="pricing__title-row">
+          <span class="pricing__title-dark">灵活</span>
+          <span class="pricing__title-grad">计算定价</span>
+        </div>
+        <p class="pricing__subtitle">从强大的裸金属服务器、灵活的 GPU 实例到按需付费的 API Token，为您的 AI 工作负载找到完美的计算解决方案。</p>
+      </div>
+      <div class="pricing__content">
+        <div class="pricing__tabs">
+          <button class="pricing__tab pricing__tab--active" type="button" data-panel-target="gpu">
+            <img src="assets/icon-gpu-pool.svg" alt="">
+            <span class="pricing__tab-label">弹性高并发推训卡池</span>
+          </button>
+          <button class="pricing__tab" type="button" data-panel-target="token">
+            <img src="assets/icon-token.svg" alt="">
+            <span class="pricing__tab-label">聚合模型 Token 服务</span>
+          </button>
+        </div>
+        <div class="pricing__panels">
+          <div class="pricing__panel pricing__panel--gpu" data-panel="gpu">
+            <div class="pricing__section-head">
+              <div class="pricing__section-head-main">
+                <img src="assets/icon-gpu-pool.svg" alt="">
+                <span class="pricing__section-title">弹性高并发推训卡池</span>
+              </div>
+              <div class="pricing__section-tag">
+                <img src="assets/icon-gpu-pool.svg" alt="">
+                <span>高并发弹性调度</span>
+              </div>
+            </div>
+            <div class="pricing__section-divider"></div>
+            <div class="gpu-grid">
+              <article class="gpu-card">
+                <div class="gpu-card__top">
+                  <div class="gpu-card__title-row">
+                    <h3 class="gpu-card__title">单卡租赁</h3>
+                  </div>
+                  <p class="gpu-card__sub">入门首选 · 灵活轻量</p>
+                </div>
+                <div class="gpu-card__price">
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 9</span>
+                    <span class="gpu-card__price-unit">/时</span>
+                  </div>
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 6,600</span>
+                    <span class="gpu-card__price-unit">/月</span>
+                  </div>
+                </div>
+                <div class="gpu-card__metrics">
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">GPU 配置</span><span class="gpu-card__metric-value">1 × WT-X201</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">总显存</span><span class="gpu-card__metric-value">80 GB</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">FP16 算力</span><span class="gpu-card__metric-value">240 TFLOPS</span></div>
+                </div>
+              </article>
+              <article class="gpu-card">
+                <div class="gpu-card__top">
+                  <div class="gpu-card__title-row">
+                    <h3 class="gpu-card__title">8卡 整机</h3>
+                    <span class="gpu-card__badge">最优性价比</span>
+                  </div>
+                  <p class="gpu-card__sub">均衡之选 · 效率提升</p>
+                </div>
+                <div class="gpu-card__price">
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 73</span>
+                    <span class="gpu-card__price-unit">/时</span>
+                  </div>
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 52,800</span>
+                    <span class="gpu-card__price-unit">/月</span>
+                  </div>
+                </div>
+                <div class="gpu-card__metrics">
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">GPU 配置</span><span class="gpu-card__metric-value">8 × WT-X201</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">总显存</span><span class="gpu-card__metric-value">640 GB</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">FP16 算力</span><span class="gpu-card__metric-value">1,920 TFLOPS</span></div>
+                </div>
+              </article>
+              <article class="gpu-card">
+                <div class="gpu-card__top">
+                  <div class="gpu-card__title-row">
+                    <h3 class="gpu-card__title">16卡 集群</h3>
+                  </div>
+                  <p class="gpu-card__sub">规模训练 · 海量吞吐</p>
+                </div>
+                <div class="gpu-card__price">
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 147</span>
+                    <span class="gpu-card__price-unit">/时</span>
+                  </div>
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 105,600</span>
+                    <span class="gpu-card__price-unit">/月</span>
+                  </div>
+                </div>
+                <div class="gpu-card__metrics">
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">GPU 配置</span><span class="gpu-card__metric-value">16 × WT-X201</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">总显存</span><span class="gpu-card__metric-value">1.28 TB</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">FP16 算力</span><span class="gpu-card__metric-value">3,840 TFLOPS</span></div>
+                </div>
+              </article>
+              <article class="gpu-card">
+                <div class="gpu-card__top">
+                  <div class="gpu-card__title-row">
+                    <h3 class="gpu-card__title">32 卡集群</h3>
+                  </div>
+                  <p class="gpu-card__sub">超算性能 · 极致并行</p>
+                </div>
+                <div class="gpu-card__price">
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 293</span>
+                    <span class="gpu-card__price-unit">/时</span>
+                  </div>
+                  <div class="gpu-card__price-block">
+                    <span class="gpu-card__price-main">¥ 211,200</span>
+                    <span class="gpu-card__price-unit">/月</span>
+                  </div>
+                </div>
+                <div class="gpu-card__metrics">
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">GPU 配置</span><span class="gpu-card__metric-value">32 × WT-X201</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">总显存</span><span class="gpu-card__metric-value">2.56 TB</span></div>
+                  <div class="gpu-card__metric"><span class="gpu-card__metric-label">FP16 算力</span><span class="gpu-card__metric-value">7,680 TFLOPS</span></div>
+                </div>
+              </article>
+            </div>
+            <div class="pricing__panel-actions">
+              <button class="btn-primary" data-sales-trigger="quote">
+                <span>联系获取报价</span>
+                <img src="assets/icon-arrow.svg" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="pricing__panel pricing__panel--token" data-panel="token" style="display:none;">
+            <div class="pricing__section-head">
+              <div class="pricing__section-head-main">
+                <img src="assets/icon-token.svg" alt="">
+                <span class="pricing__section-title">多种主流大模型Token</span>
+              </div>
+              <div class="pricing__section-tag">
+                <img src="assets/icon-token.svg" alt="">
+                <span>按量计费</span>
+              </div>
+            </div>
+            <div class="pricing__section-divider"></div>
+            <div class="token-gallery-shell">
+              <div class="token-gallery-stage">
+                <article class="token-orbit-card" data-index="0">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--deepseek" src="assets/deepseek-logo-clean.png" alt="DeepSeek">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">DeepSeek</h3>
+                    <p class="token-orbit-card__desc">覆盖通用对话、代码生成、复杂推理等场景，适合高性价比的生产级应用接入。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="1">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--qwen" src="assets/qwen-logo.png" alt="阿里·通义千问">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">阿里·通义千问</h3>
+                    <p class="token-orbit-card__desc">阿里云通义系列模型，支持文本、视觉理解和企业应用智能体等多类型工作负载。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="2">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--kimi" src="assets/kimi-logo.svg" alt="Kimi">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">Kimi</h3>
+                    <p class="token-orbit-card__desc">面向长上下文阅读、知识问答和复杂任务规划，适合文档密集型业务场景。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="3">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--zhipu" src="assets/zhipu-logo.svg" alt="智谱AI">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">智谱AI</h3>
+                    <p class="token-orbit-card__desc">覆盖通用问答、Agent 调用与行业推理场景，适配多轮对话和企业级智能工作流。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="4">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--minimax" src="assets/minimax-logo.png" alt="MiniMax">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">MiniMax</h3>
+                    <p class="token-orbit-card__desc">适合对话式应用、智能体编排和多模态内容生成，覆盖高并发推理需求。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="5">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--llama" src="assets/meta-logo.svg" alt="LLaMa">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">LLaMa</h3>
+                    <p class="token-orbit-card__desc">开放生态主流模型系列，便于私有化、微调和多场景模型服务扩展。</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <div class="token-gallery-cta">
+              <button class="btn-primary">
+                <span>查看更多模型</span>
+                <img src="assets/icon-arrow.svg" alt="">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============================================================
        CTA + CONTACT SECTION
   ============================================================ -->
@@ -2261,7 +3322,8 @@
     var page = document.querySelector('.page');
     var navbar = document.querySelector('.navbar');
     var navbarToggle = document.querySelector('.navbar__toggle');
-    var hero = document.querySelector('.hero');
+    var hero = document.querySelector('#hero');
+    var pricingSectionV2 = document.querySelector('.pricing--v2');
     var scrollTopButton = document.querySelector('.scroll-top');
     var navLinks = Array.from(document.querySelectorAll('.navbar__link'));
     var primaryButtons = Array.from(document.querySelectorAll('.btn-primary, .btn-submit, .navbar__console, .footer__sub-btn, .nav-btn, .scroll-top'));
@@ -2271,8 +3333,6 @@
     var parallaxTargets = [
       { element: document.querySelector('.hero__bg'), speed: 0.14 },
       { element: document.querySelector('.hero__overlay'), speed: 0.08 },
-      { element: document.querySelector('.pricing__corner-gpu'), speed: 0.1 },
-      { element: document.querySelector('.pricing__deco'), speed: -0.06 },
       { element: document.querySelector('.bg-deco'), speed: 0.05 }
     ].filter(function (item) { return item.element; });
 
@@ -2282,10 +3342,9 @@
     // 区块映射：导航点击后平滑定位到对应内容区
     // ============================================================
     var sectionMap = {
-      '产品': document.querySelector('.products'),
-      '定价': document.querySelector('.pricing'),
-      '基础设施': document.querySelector('.logos'),
-      '客户案例': document.querySelector('.solutions'),
+      '产品及定价': document.querySelector('.products'),
+      '平台优势': document.querySelector('.solutions'),
+      '帮助文档': document.querySelector('.footer'),
       '联系销售': document.querySelector('.cta')
     };
 
@@ -2491,30 +3550,11 @@
     // 导航交互：平滑滚动、激活态同步、滚动后吸顶状态切换
     // ============================================================
     function syncNavbarFrame() {
-      if (!navbar || !page) return;
+      if (!navbar || !hero) return;
 
-      var pageRect = page.getBoundingClientRect();
-      var shouldStick = window.scrollY > 24;
-
-      navbar.style.transition = 'background 220ms ease, box-shadow 220ms ease, transform 220ms ease, border-color 220ms ease';
-
-      if (shouldStick) {
-        navbar.style.position = 'fixed';
-        navbar.style.top = '0';
-        navbar.style.left = pageRect.left + 'px';
-        navbar.style.width = pageRect.width + 'px';
-        navbar.style.background = '#E2E8F0';
-        navbar.style.boxShadow = '0 12px 36px rgba(15, 23, 42, 0.08)';
-        navbar.style.borderBottomColor = 'rgba(226, 232, 240, 1)';
-      } else {
-        navbar.style.position = 'absolute';
-        navbar.style.top = '0';
-        navbar.style.left = '0';
-        navbar.style.width = '100%';
-        navbar.style.background = '#E2E8F0';
-        navbar.style.boxShadow = '';
-        navbar.style.borderBottomColor = '#e2e8f0';
-      }
+      var threshold = Math.max(32, hero.offsetHeight - navbar.offsetHeight - 48);
+      var shouldUseSolid = window.innerWidth <= 768 || window.scrollY > threshold;
+      navbar.classList.toggle('navbar--solid', shouldUseSolid);
     }
 
     function setActiveNav(link) {
@@ -2606,6 +3646,19 @@
     Object.keys(sectionMap).forEach(function (key) {
       if (sectionMap[key]) sectionObserver.observe(sectionMap[key]);
     });
+
+    if (pricingSectionV2) {
+      var pricingCornerObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          pricingSectionV2.classList.toggle('is-corner-gpu-visible', entry.isIntersecting);
+        });
+      }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      pricingCornerObserver.observe(pricingSectionV2);
+    }
 
     // ============================================================
     // 滚动出现：区块淡入上滑，增强页面层次感
@@ -3224,22 +4277,44 @@
     }
 
     // ============================================================
-    // 定价 Tab：点击后转移高亮状态
+    // 定价 Tab：桌面切换，移动端直出全部内容
     // ============================================================
-    var pricingTabs = Array.from(document.querySelectorAll('.pricing__tab'));
-    var pricingPanels = Array.from(document.querySelectorAll('.pricing__panel'));
+    var pricingTabs = pricingSectionV2 ? Array.from(pricingSectionV2.querySelectorAll('.pricing__tab')) : [];
+    var pricingPanels = pricingSectionV2 ? Array.from(pricingSectionV2.querySelectorAll('.pricing__panel')) : [];
+
+    function syncPricingPanels() {
+      if (!pricingSectionV2) return;
+
+      var isStacked = window.innerWidth <= 1024;
+      pricingSectionV2.classList.toggle('pricing--stacked', isStacked);
+
+      if (isStacked) {
+        pricingPanels.forEach(function (panel) {
+          panel.style.display = '';
+        });
+        return;
+      }
+
+      var activeTab = pricingSectionV2.querySelector('.pricing__tab--active') || pricingTabs[0];
+      var activeTarget = activeTab ? activeTab.getAttribute('data-panel-target') : 'gpu';
+      pricingPanels.forEach(function (panel) {
+        panel.style.display = panel.getAttribute('data-panel') === activeTarget ? '' : 'none';
+      });
+    }
+
     pricingTabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
+        if (window.innerWidth <= 1024) return;
         pricingTabs.forEach(function (item) {
           item.classList.remove('pricing__tab--active');
         });
         tab.classList.add('pricing__tab--active');
-        var targetPanel = tab.getAttribute('data-panel-target');
-        pricingPanels.forEach(function (panel) {
-          panel.style.display = panel.getAttribute('data-panel') === targetPanel ? '' : 'none';
-        });
+        syncPricingPanels();
       });
     });
+
+    syncPricingPanels();
+    window.addEventListener('resize', syncPricingPanels);
 
     // ============================================================
     // 定价套餐卡：鼠标移到哪个模块，哪个模块高亮
@@ -3268,6 +4343,89 @@
       pricingCardsWrap.addEventListener('mouseleave', function () {
         setActivePricingCard(null);
       });
+    }
+
+    // ============================================================
+    // Token 轮播卡片：平行 gallery 展示，支持循环切换
+    // ============================================================
+    var tokenGalleryStage = pricingSectionV2 ? pricingSectionV2.querySelector('.token-gallery-stage') : null;
+    var tokenOrbitCards = tokenGalleryStage ? Array.from(tokenGalleryStage.querySelectorAll('.token-orbit-card')) : [];
+    var tokenActiveIndex = 0;
+    var tokenPointerState = null;
+
+    function getCircularDistance(index, active, total) {
+      var distance = index - active;
+      if (distance > total / 2) distance -= total;
+      if (distance < -total / 2) distance += total;
+      return distance;
+    }
+
+    function renderTokenGallery() {
+      if (!tokenGalleryStage || !tokenOrbitCards.length) return;
+
+      var stageWidth = tokenGalleryStage.clientWidth || 1;
+      var isMobile = window.innerWidth <= 768;
+      var cardStep = isMobile ? Math.min(stageWidth * 0.48, 188) : Math.min(stageWidth * 0.26, 232);
+
+      tokenOrbitCards.forEach(function (card, index) {
+        var distance = getCircularDistance(index, tokenActiveIndex, tokenOrbitCards.length);
+        var absDistance = Math.abs(distance);
+        var opacity = absDistance > 2 ? 0 : (absDistance === 0 ? 1 : absDistance === 1 ? 0.88 : 0.56);
+        var scale = absDistance === 0 ? 1 : absDistance === 1 ? 0.96 : 0.92;
+        var translateX = distance * cardStep;
+        var translateY = 0;
+        var zIndex = String(20 - absDistance);
+
+        card.classList.toggle('is-active', absDistance === 0);
+        card.style.zIndex = zIndex;
+        card.style.opacity = String(opacity);
+        card.style.pointerEvents = absDistance > 2 ? 'none' : 'auto';
+        card.style.transform = 'translate3d(calc(-50% + ' + translateX.toFixed(2) + 'px), ' + translateY.toFixed(2) + 'px, 0) scale(' + scale + ')';
+      });
+    }
+
+    function moveTokenGallery(direction) {
+      if (!tokenOrbitCards.length) return;
+      tokenActiveIndex = (tokenActiveIndex + direction + tokenOrbitCards.length) % tokenOrbitCards.length;
+      renderTokenGallery();
+    }
+
+    if (tokenGalleryStage && tokenOrbitCards.length) {
+      renderTokenGallery();
+
+      tokenOrbitCards.forEach(function (card, index) {
+        card.addEventListener('mouseenter', function () {
+          tokenActiveIndex = index;
+          renderTokenGallery();
+        });
+        card.addEventListener('click', function () {
+          tokenActiveIndex = index;
+          renderTokenGallery();
+        });
+      });
+
+      tokenGalleryStage.addEventListener('wheel', function (event) {
+        event.preventDefault();
+        moveTokenGallery(event.deltaY > 0 ? 1 : -1);
+      }, { passive: false });
+
+      tokenGalleryStage.addEventListener('pointerdown', function (event) {
+        tokenPointerState = { startX: event.clientX, startY: event.clientY };
+        tokenGalleryStage.classList.add('is-dragging');
+      });
+
+      window.addEventListener('pointerup', function (event) {
+        if (!tokenPointerState) return;
+        var deltaX = event.clientX - tokenPointerState.startX;
+        var deltaY = event.clientY - tokenPointerState.startY;
+        tokenGalleryStage.classList.remove('is-dragging');
+        tokenPointerState = null;
+
+        if (Math.abs(deltaX) < 24 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+        moveTokenGallery(deltaX < 0 ? 1 : -1);
+      });
+
+      window.addEventListener('resize', renderTokenGallery);
     }
 
     // ============================================================
@@ -3385,4 +4543,3 @@
 </script>
 </body>
 </html>
-
