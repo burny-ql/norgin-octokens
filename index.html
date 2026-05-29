@@ -1633,6 +1633,9 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+    .pricing__section-title--mobile {
+      display: none;
+    }
     .pricing__section-tag {
       display: inline-flex;
       align-items: center;
@@ -2082,6 +2085,12 @@
       }
       .pricing__section-title {
         font-size: 24px;
+      }
+      .pricing__section-title--desktop {
+        display: none;
+      }
+      .pricing__section-title--mobile {
+        display: inline;
       }
       .pricing__section-tag span {
         font-size: 13px;
@@ -3131,7 +3140,8 @@
             <div class="pricing__section-head">
               <div class="pricing__section-head-main">
                 <img src="assets/icon-token.svg" alt="">
-                <span class="pricing__section-title">多种主流大模型Token</span>
+                <span class="pricing__section-title pricing__section-title--desktop">多种主流大模型的token消耗计费</span>
+                <span class="pricing__section-title pricing__section-title--mobile">多种主流大模型Token</span>
               </div>
               <div class="pricing__section-tag">
                 <img src="assets/icon-token.svg" alt="">
