@@ -1195,7 +1195,7 @@
       .cta__form,
       .footer { padding-left: 16px; padding-right: 16px; }
       .pricing {
-        padding: 40px 20px;
+        padding: 40px 40px;
       }
       .pricing__tab-bar { height: 48px; border-radius: 18px 18px 0 0; }
       .pricing__tab-left { right: 35%; border-top-right-radius: 18px; }
@@ -1441,7 +1441,7 @@
       height: 513px;
       object-fit: contain;
       opacity: 0;
-      z-index: 1;
+      z-index: 4;
       transform: translate3d(0, 24px, 0);
       transition: opacity 640ms ease, transform 640ms ease;
     }
@@ -1452,11 +1452,11 @@
     .pricing__deco {
       position: absolute;
       right: -68px;
-      bottom: -176px;
+      bottom: -138px;
       width: 552px;
       height: 552px;
       opacity: 0.85;
-      z-index: 0;
+      z-index: 1;
       overflow: hidden;
     }
     .pricing__deco img {
@@ -1466,7 +1466,7 @@
     }
     .pricing__tab-bar {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       height: 80px;
       width: 100%;
       overflow: hidden;
@@ -1495,7 +1495,7 @@
     }
     .pricing__body {
       position: relative;
-      z-index: 0;
+      z-index: 2;
       width: 100%;
       overflow: hidden;
       background: #1f1f1f;
@@ -1505,7 +1505,7 @@
     .pricing__header,
     .pricing__content {
       position: relative;
-      z-index: 2;
+      z-index: 5;
     }
     .pricing__header {
       display: flex;
@@ -1918,7 +1918,7 @@
         width: 442px;
         height: 442px;
         right: -56px;
-        bottom: -144px;
+        bottom: -110px;
       }
     }
     @media (max-width: 1024px) {
@@ -1926,12 +1926,12 @@
         border-radius: 12px;
       }
       .pricing {
-        padding: 64px 32px 56px;
+        padding: 40px 40px;
       }
       .pricing__body {
         border-radius: 0 24px 24px 24px;
-        padding-top: 56px;
-        padding-bottom: 56px;
+        padding-top: 40px;
+        padding-bottom: 40px;
       }
       .pricing__header {
         align-items: flex-start;
@@ -1939,7 +1939,7 @@
       }
       .pricing__content {
         gap: 56px;
-        padding: 56px 40px;
+        padding: 40px 40px;
       }
       .pricing__tabs {
         display: none;
@@ -1965,7 +1965,7 @@
         width: 331px;
         height: 331px;
         right: -40px;
-        bottom: -114px;
+        bottom: -83px;
       }
       .pricing__tab-bar {
         height: 64px;
@@ -2031,7 +2031,7 @@
         gap: 8px;
       }
       .pricing {
-        padding: 40px 20px;
+        padding: 40px 40px;
       }
       .pricing__tab-bar {
         height: 48px;
@@ -2105,7 +2105,7 @@
         width: 280px;
         height: 280px;
         right: -28px;
-        bottom: -88px;
+        bottom: -70px;
       }
       .token-gallery-shell {
         min-height: 368px;
@@ -2993,9 +2993,6 @@
 
   <section class="pricing pricing--v2" id="pricing">
     <img class="pricing__corner-gpu" src="assets/Rectangle.png" alt="">
-    <div class="pricing__deco">
-      <img src="assets/pricing-deco.png" alt="">
-    </div>
     <div class="pricing__tab-bar">
       <div class="pricing__tab-left"></div>
       <div class="pricing__tab-right">
@@ -3003,6 +3000,9 @@
       </div>
     </div>
     <div class="pricing__body">
+      <div class="pricing__deco">
+        <img src="assets/pricing-deco.png" alt="">
+      </div>
       <div class="pricing__header">
         <div class="pricing__title-row">
           <span class="pricing__title-dark">灵活</span>
@@ -3012,17 +3012,95 @@
       </div>
       <div class="pricing__content">
         <div class="pricing__tabs">
-          <button class="pricing__tab pricing__tab--active" type="button" data-panel-target="gpu">
-            <img src="assets/icon-gpu-pool.svg" alt="">
-            <span class="pricing__tab-label">弹性高并发推训卡池</span>
-          </button>
-          <button class="pricing__tab" type="button" data-panel-target="token">
+          <button class="pricing__tab pricing__tab--active" type="button" data-panel-target="token">
             <img src="assets/icon-token.svg" alt="">
             <span class="pricing__tab-label">聚合模型 Token 服务</span>
           </button>
+          <button class="pricing__tab" type="button" data-panel-target="gpu">
+            <img src="assets/icon-gpu-pool.svg" alt="">
+            <span class="pricing__tab-label">弹性高并发推训卡池</span>
+          </button>
         </div>
         <div class="pricing__panels">
-          <div class="pricing__panel pricing__panel--gpu" data-panel="gpu">
+          <div class="pricing__panel pricing__panel--token" data-panel="token">
+            <div class="pricing__section-head">
+              <div class="pricing__section-head-main">
+                <img src="assets/icon-token.svg" alt="">
+                <span class="pricing__section-title pricing__section-title--desktop">多种主流大模型的token消耗计费</span>
+                <span class="pricing__section-title pricing__section-title--mobile">多种主流大模型Token</span>
+              </div>
+              <div class="pricing__section-tag">
+                <img src="assets/icon-token.svg" alt="">
+                <span>按量计费</span>
+              </div>
+            </div>
+            <div class="pricing__section-divider"></div>
+            <div class="token-gallery-shell">
+              <div class="token-gallery-stage">
+                <article class="token-orbit-card" data-index="0">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--deepseek" src="assets/deepseek-logo-clean.png" alt="DeepSeek">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">DeepSeek</h3>
+                    <p class="token-orbit-card__desc">覆盖通用对话、代码生成、复杂推理等场景，适合高性价比的生产级应用接入。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="1">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--qwen" src="assets/qwen-logo.png" alt="阿里·通义千问">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">阿里·通义千问</h3>
+                    <p class="token-orbit-card__desc">阿里云通义系列模型，支持文本、视觉理解和企业应用智能体等多类型工作负载。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="2">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--kimi" src="assets/kimi-logo.svg" alt="Kimi">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">Kimi</h3>
+                    <p class="token-orbit-card__desc">面向长上下文阅读、知识问答和复杂任务规划，适合文档密集型业务场景。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="3">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--zhipu" src="assets/zhipu-logo.svg" alt="智谱AI">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">智谱AI</h3>
+                    <p class="token-orbit-card__desc">覆盖通用问答、Agent 调用与行业推理场景，适配多轮对话和企业级智能工作流。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="4">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--minimax" src="assets/minimax-logo.png" alt="MiniMax">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">MiniMax</h3>
+                    <p class="token-orbit-card__desc">适合对话式应用、智能体编排和多模态内容生成，覆盖高并发推理需求。</p>
+                  </div>
+                </article>
+                <article class="token-orbit-card" data-index="5">
+                  <div class="token-orbit-card__media">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--llama" src="assets/meta-logo.svg" alt="LLaMa">
+                  </div>
+                  <div class="token-orbit-card__body">
+                    <h3 class="token-orbit-card__name">LLaMa</h3>
+                    <p class="token-orbit-card__desc">开放生态主流模型系列，便于私有化、微调和多场景模型服务扩展。</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+            <div class="token-gallery-cta">
+              <button class="btn-primary">
+                <span>查看更多模型</span>
+                <img src="assets/icon-arrow.svg" alt="">
+              </button>
+            </div>
+          </div>
+          <div class="pricing__panel pricing__panel--gpu" data-panel="gpu" style="display:none;">
             <div class="pricing__section-head">
               <div class="pricing__section-head-main">
                 <img src="assets/icon-gpu-pool.svg" alt="">
@@ -3132,84 +3210,6 @@
             <div class="pricing__panel-actions">
               <button class="btn-primary" data-sales-trigger="quote">
                 <span>联系获取报价</span>
-                <img src="assets/icon-arrow.svg" alt="">
-              </button>
-            </div>
-          </div>
-          <div class="pricing__panel pricing__panel--token" data-panel="token" style="display:none;">
-            <div class="pricing__section-head">
-              <div class="pricing__section-head-main">
-                <img src="assets/icon-token.svg" alt="">
-                <span class="pricing__section-title pricing__section-title--desktop">多种主流大模型的token消耗计费</span>
-                <span class="pricing__section-title pricing__section-title--mobile">多种主流大模型Token</span>
-              </div>
-              <div class="pricing__section-tag">
-                <img src="assets/icon-token.svg" alt="">
-                <span>按量计费</span>
-              </div>
-            </div>
-            <div class="pricing__section-divider"></div>
-            <div class="token-gallery-shell">
-              <div class="token-gallery-stage">
-                <article class="token-orbit-card" data-index="0">
-                  <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--deepseek" src="assets/deepseek-logo-clean.png" alt="DeepSeek">
-                  </div>
-                  <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">DeepSeek</h3>
-                    <p class="token-orbit-card__desc">覆盖通用对话、代码生成、复杂推理等场景，适合高性价比的生产级应用接入。</p>
-                  </div>
-                </article>
-                <article class="token-orbit-card" data-index="1">
-                  <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--qwen" src="assets/qwen-logo.png" alt="阿里·通义千问">
-                  </div>
-                  <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">阿里·通义千问</h3>
-                    <p class="token-orbit-card__desc">阿里云通义系列模型，支持文本、视觉理解和企业应用智能体等多类型工作负载。</p>
-                  </div>
-                </article>
-                <article class="token-orbit-card" data-index="2">
-                  <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--kimi" src="assets/kimi-logo.svg" alt="Kimi">
-                  </div>
-                  <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">Kimi</h3>
-                    <p class="token-orbit-card__desc">面向长上下文阅读、知识问答和复杂任务规划，适合文档密集型业务场景。</p>
-                  </div>
-                </article>
-                <article class="token-orbit-card" data-index="3">
-                  <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--zhipu" src="assets/zhipu-logo.svg" alt="智谱AI">
-                  </div>
-                  <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">智谱AI</h3>
-                    <p class="token-orbit-card__desc">覆盖通用问答、Agent 调用与行业推理场景，适配多轮对话和企业级智能工作流。</p>
-                  </div>
-                </article>
-                <article class="token-orbit-card" data-index="4">
-                  <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--minimax" src="assets/minimax-logo.png" alt="MiniMax">
-                  </div>
-                  <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">MiniMax</h3>
-                    <p class="token-orbit-card__desc">适合对话式应用、智能体编排和多模态内容生成，覆盖高并发推理需求。</p>
-                  </div>
-                </article>
-                <article class="token-orbit-card" data-index="5">
-                  <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--llama" src="assets/meta-logo.svg" alt="LLaMa">
-                  </div>
-                  <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">LLaMa</h3>
-                    <p class="token-orbit-card__desc">开放生态主流模型系列，便于私有化、微调和多场景模型服务扩展。</p>
-                  </div>
-                </article>
-              </div>
-            </div>
-            <div class="token-gallery-cta">
-              <button class="btn-primary">
-                <span>查看更多模型</span>
                 <img src="assets/icon-arrow.svg" alt="">
               </button>
             </div>
