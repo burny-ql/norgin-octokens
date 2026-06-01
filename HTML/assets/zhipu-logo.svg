@@ -1,0 +1,14 @@
+<svg width="240" height="120" viewBox="0 0 240 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="zhipu-grad" x1="34" y1="24" x2="206" y2="92" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00A96E"/>
+      <stop offset="1" stop-color="#13D392"/>
+    </linearGradient>
+  </defs>
+  <rect width="240" height="120" rx="28" fill="white"/>
+  <path d="M40 38H84V48L56.6 72H84V82H40V72L67.3 48H40V38Z" fill="#17212F"/>
+  <path d="M95 82V38H107V54.5H126.5V38H138.5V82H126.5V65H107V82H95Z" fill="#17212F"/>
+  <path d="M149.5 82V38H182.5V48H161.5V55.4H179V65.1H161.5V72H183.2V82H149.5Z" fill="#17212F"/>
+  <path d="M195.5 82V48H183.2V38H219.8V48H207.5V82H195.5Z" fill="#17212F"/>
+  <rect x="28" y="90" width="184" height="10" rx="5" fill="url(#zhipu-grad)"/>
+</svg>
