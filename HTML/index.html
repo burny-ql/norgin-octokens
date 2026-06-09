@@ -1742,7 +1742,7 @@
     .token-gallery-stage {
       position: relative;
       width: 100%;
-      height: 420px;
+      height: 400px;
       touch-action: pan-y;
       cursor: grab;
     }
@@ -1753,7 +1753,7 @@
       position: absolute;
       top: 0;
       left: 50%;
-      width: min(320px, calc((100% - 36px) / 3));
+      width: min(286px, calc((100% - 36px) / 3));
       min-width: 248px;
       height: 100%;
       display: flex;
@@ -1771,8 +1771,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 236px;
-      padding: 22px 24px 28px;
+      height: 220px;
+      padding: 20px 22px 24px;
       background: #ffffff;
     }
     .token-orbit-card__media::after {
@@ -1804,6 +1804,7 @@
     }
     .token-orbit-card__logo--qwen,
     .token-orbit-card__logo--kimi,
+    .token-orbit-card__logo--doubao,
     .token-orbit-card__logo--zhipu,
     .token-orbit-card__logo--minimax {
       max-width: 104px;
@@ -1818,9 +1819,9 @@
     .token-orbit-card__body {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 18px 18px 20px;
-      min-height: 148px;
+      gap: 12px;
+      padding: 20px 18px 22px;
+      min-height: 180px;
     }
     .token-orbit-card__name {
       font-size: 20px;
@@ -1829,8 +1830,8 @@
       line-height: 1.3;
     }
     .token-orbit-card__desc {
-      font-size: 14px;
-      line-height: 1.7;
+      font-size: 16px;
+      line-height: 1.6;
       color: #9d9d9d;
     }
     .token-gallery-cta {
@@ -2267,7 +2268,7 @@
   <nav class="navbar" aria-label="主导航">
     <div class="navbar__brand">
       <a class="navbar__logo" href="#hero" aria-label="OctoAI 算力服务平台">
-        <img class="navbar__logo-img" src="assets/octoai-logo.png" alt="OctoAI 算力服务平台">
+        <img class="navbar__logo-img" src="assets/logo.svg?v=20260609-1" alt="OctoAI 算力服务平台">
       </a>
     </div>
     <button class="navbar__toggle" type="button" aria-expanded="false" aria-label="打开导航菜单">
@@ -3184,7 +3185,7 @@
                 </article>
                 <article class="token-orbit-card" data-index="2">
                   <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--kimi" src="assets/kimi-logo.svg" alt="Kimi">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--kimi" src="assets/kimi-logo-new.webp" alt="Kimi">
                   </div>
                   <div class="token-orbit-card__body">
                     <h3 class="token-orbit-card__name">Kimi</h3>
@@ -3193,7 +3194,7 @@
                 </article>
                 <article class="token-orbit-card" data-index="3">
                   <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--zhipu" src="assets/zhipu-logo.svg" alt="智谱AI">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--zhipu" src="assets/zhipuai-logo.svg" alt="智谱AI">
                   </div>
                   <div class="token-orbit-card__body">
                     <h3 class="token-orbit-card__name">智谱AI</h3>
@@ -3211,11 +3212,11 @@
                 </article>
                 <article class="token-orbit-card" data-index="5">
                   <div class="token-orbit-card__media">
-                    <img class="token-orbit-card__logo token-orbit-card__logo--llama" src="assets/meta-logo.svg" alt="LLaMa">
+                    <img class="token-orbit-card__logo token-orbit-card__logo--doubao" src="https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/favicon/128x128.png" alt="豆包">
                   </div>
                   <div class="token-orbit-card__body">
-                    <h3 class="token-orbit-card__name">LLaMa</h3>
-                    <p class="token-orbit-card__desc">开放生态主流模型系列，便于私有化、微调和多场景模型服务扩展。</p>
+                    <h3 class="token-orbit-card__name">豆包</h3>
+                    <p class="token-orbit-card__desc">适合通用对话、内容生成与轻量级智能体应用，具备高可用、低门槛的生产接入体验。</p>
                   </div>
                 </article>
               </div>
