@@ -9,8 +9,13 @@
        CSS RESET & BASE
     ================================================================ */
     :root {
+      --page-max: 1920px;
+      --page-gutter: max(0px, calc((100vw - var(--page-max)) / 2));
       --section-x: clamp(24px, 8vw, 162px);
       --section-x-wide: clamp(24px, 12vw, 288px);
+      --section-page-x: calc(var(--page-gutter) + var(--section-x));
+      --section-page-x-wide: calc(var(--page-gutter) + var(--section-x-wide));
+      --nav-page-x: calc(var(--page-gutter) + 40px);
       --section-gap: clamp(40px, 6vw, 80px);
       --radius-lg: 24px;
     }
@@ -68,7 +73,7 @@
     }
     .navbar__right { display: flex; align-items: center; gap: 24px; }
     .navbar__link {
-      font-size: 16px; color: #09090b;
+      font-size: 18px; color: #09090b;
       letter-spacing: -0.1504px; white-space: nowrap; cursor: pointer;
     }
     .navbar__sep { width: 1px; height: 32px; background: #e2e8f0; flex-shrink: 0; }
@@ -113,7 +118,7 @@
       display: flex;
       align-items: center;
       justify-content: flex-start;
-      padding: 208px var(--section-x) clamp(72px, 10vw, 120px);
+      padding: 208px var(--section-page-x) clamp(72px, 10vw, 120px);
       overflow: hidden;
       isolation: isolate;
     }
@@ -193,7 +198,7 @@
     .products {
       position: relative;
       width: 100%;
-      padding: 80px var(--section-x);
+      padding: 80px var(--section-page-x);
       background: #f6f9fc;
       overflow: hidden;
     }
@@ -289,14 +294,14 @@
       width: 100%;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 0 var(--section-x) 80px;
+      padding: 0 var(--section-page-x) 80px;
       isolation: isolate;
       background: #F6F9FC;
     }
     .pricing__corner-gpu {
       position: absolute;
       top: -64px;
-      left: 0;
+      left: var(--page-gutter);
       width: 513px;
       height: 513px;
       object-fit: contain;
@@ -359,7 +364,7 @@
     /* info panel */
     .pricing__panel {
       display: flex; flex-direction: column; gap: 40px;
-      border-radius: 0 24px 24px 24px;
+      border-radius: 24px;
       backdrop-filter: blur(16px);
       width: 100%; position: relative; z-index: 2;
     }
@@ -580,7 +585,7 @@
       position: relative;
       width: 100%;
       background: linear-gradient(180deg,#4A96F9 0%,#1E50D7 100%);
-      padding: 80px var(--section-x-wide) 144px;
+      padding: 80px var(--section-page-x-wide) 144px;
       display: flex; flex-direction: column; gap: 80px;
     }
     .logos__hd { display: flex; flex-direction: column; gap: 20px; text-align: center; color: #fff; width: 100%; }
@@ -621,7 +626,7 @@
     .solutions {
       position: relative;
       width: 100%;
-      padding: 80px var(--section-x);
+      padding: 80px var(--section-page-x);
       background: #f6f9fc;
       overflow: hidden;
     }
@@ -681,7 +686,7 @@
       position: relative;
       width: 100%;
       background: linear-gradient(180deg,#4A96F9 0%,#1E50D7 100%);
-      padding: 80px var(--section-x-wide);
+      padding: 80px var(--section-page-x-wide);
       display: flex; gap: 56px; align-items: flex-start;
     }
     .cta__left {
@@ -690,7 +695,7 @@
     }
     .cta__heading { display: flex; flex-direction: column; gap: 20px; }
     .cta__title-row {
-      display: flex; align-items: flex-start; justify-content: center;
+      display: flex; align-items: flex-start; justify-content: flex-start;
       font-size: 42px; letter-spacing: 0.3691px; white-space: nowrap;
     }
     .cta__title-dark { font-weight: 700; color: #fff; }
@@ -867,7 +872,7 @@
       gap: 24px;
       align-items: flex-start;
       width: 100%;
-      padding: 90px var(--section-x-wide) 86px;
+      padding: 90px var(--section-page-x-wide) 86px;
     }
     .footer__brand { display: flex; flex-direction: column; gap: 18px; width: min(100%, 560px); flex-shrink: 0; align-self: stretch; }
     .footer__brand-name {
@@ -896,7 +901,7 @@
     .footer__sub-btn { background: #1d4ed8; border-radius: 8px; padding: 12px 16px; cursor: pointer; flex-shrink: 0; }
     .footer__sub-btn span { font-size: 16px; color: #fff; white-space: nowrap; }
 
-    .footer__bottom { display: flex; align-items: center; justify-content: flex-start; width: 100%; padding: 0 var(--section-x-wide); }
+    .footer__bottom { display: flex; align-items: center; justify-content: flex-start; width: 100%; padding: 0 var(--section-page-x-wide); }
     .footer__copy { font-size: 12px; color: #64748b; letter-spacing: -0.2922px; line-height: normal; flex: 1 0 0; }
     .footer__legal { display: flex; gap: 32px; align-items: center; }
     .footer__legal-item { font-size: 12px; color: #64748b; letter-spacing: -0.2922px; text-align: center; white-space: nowrap; cursor: pointer; }
@@ -962,8 +967,8 @@
       .navbar {
         justify-content: space-between;
         gap: 12px;
-        min-height: 60px;
-        padding: 9px 16px;
+        min-height: 64px;
+        padding: 0 40px;
         flex-wrap: nowrap;
       }
       .navbar__brand {
@@ -971,7 +976,7 @@
         min-width: 0;
       }
       .navbar__logo-img {
-        height: 32px;
+        height: 56px;
       }
       .navbar__toggle {
         display: inline-flex;
@@ -1022,6 +1027,38 @@
         padding: 0 12px;
         border-radius: 12px;
         background: rgba(248,250,252,0.7);
+        font-size: 16px;
+      }
+      .navbar__dropdown {
+        width: 100%;
+      }
+      .navbar__dropdown-trigger {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .navbar__dropdown-menu {
+        position: static;
+        min-width: 0;
+        margin-top: 6px;
+        padding: 8px;
+        border: 0;
+        border-radius: 14px;
+        box-shadow: none;
+        background: rgba(241, 245, 249, 0.92);
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        pointer-events: auto;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 220ms ease, padding 220ms ease;
+      }
+      .navbar__dropdown:not(.is-open) .navbar__dropdown-menu {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .navbar__dropdown.is-open .navbar__dropdown-menu {
+        max-height: 320px;
       }
       .navbar__sep { display: none; }
       .navbar__lang,
@@ -1385,8 +1422,9 @@
       left: 0;
       right: 0;
       width: 100%;
-      min-height: 72px;
-      padding: 16px clamp(20px, 4vw, 56px);
+      transform: none;
+      min-height: 64px;
+      padding: 0 var(--nav-page-x);
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -1417,7 +1455,7 @@
     }
     .navbar__logo-img {
       width: auto;
-      height: 40px;
+      height: 56px;
       display: block;
       object-fit: contain;
     }
@@ -1441,7 +1479,7 @@
       align-items: center;
       padding: 12px;
       font-family: 'Glow Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 400;
       color: #09090b;
       letter-spacing: -0.1504px;
@@ -1485,11 +1523,76 @@
       font-weight: 600;
       color: #fff;
     }
+    .navbar__dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .navbar__dropdown-trigger {
+      gap: 8px;
+    }
+    .navbar__dropdown-trigger img {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+      transition: transform 180ms ease;
+    }
+    .navbar__dropdown.is-open .navbar__dropdown-trigger img {
+      transform: rotate(180deg);
+    }
+    .navbar__dropdown-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 236px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(226, 232, 240, 0.92);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 24px 56px rgba(15, 23, 42, 0.14);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 180ms ease, visibility 180ms ease, transform 180ms ease;
+      z-index: 120;
+    }
+    .navbar__dropdown.is-open .navbar__dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .navbar__dropdown-list {
+      display: grid;
+      gap: 6px;
+    }
+    .navbar__dropdown-item {
+      display: grid;
+      gap: 4px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      transition: background 180ms ease, color 180ms ease;
+    }
+    .navbar__dropdown-item:hover {
+      background: rgba(29, 78, 216, 0.08);
+    }
+    .navbar__dropdown-item strong {
+      font-size: 14px;
+      color: #0f172a;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .navbar__dropdown-item span {
+      font-size: 12px;
+      color: #64748b;
+      line-height: 1.5;
+    }
 
     .pricing {
       position: relative;
       background: #f6f9fc;
-      padding: 80px var(--section-x);
+      padding: 80px var(--section-page-x);
       overflow: visible;
       isolation: isolate;
     }
@@ -1501,7 +1604,7 @@
     .pricing__corner-gpu {
       position: absolute;
       top: -64px;
-      left: 0;
+      left: var(--page-gutter);
       width: 513px;
       height: 513px;
       object-fit: contain;
@@ -1987,7 +2090,7 @@
         max-width: none;
       }
     }
-    @media (min-width: 1025px) and (max-width: 1920px) {
+    @media (min-width: 1025px) {
       .hero {
         padding-top: 168px;
       }
@@ -1997,7 +2100,7 @@
         object-position: 42% center;
       }
     }
-    @media (min-width: 1441px) and (max-width: 1920px) {
+    @media (min-width: 1441px) {
       :root {
         --section-x: 162px;
         --section-x-wide: 162px;
@@ -2008,7 +2111,7 @@
         width: 410px;
         height: 410px;
         top: -64px;
-        left: 0;
+        left: var(--page-gutter);
       }
       .pricing__deco {
         width: 442px;
@@ -2048,11 +2151,14 @@
       .hero__bg {
         object-position: left center;
       }
+      .navbar__link {
+        font-size: 16px;
+      }
       .navbar__console {
         border-radius: 12px;
       }
       .pricing {
-        padding: 40px var(--section-x);
+        padding: 40px var(--section-page-x);
       }
       .pricing__body {
         border-radius: 0 24px 24px 24px;
@@ -2084,7 +2190,7 @@
         width: 308px;
         height: 308px;
         top: -64px;
-        left: 0;
+        left: var(--page-gutter);
       }
       .pricing__deco {
         display: block;
@@ -2140,11 +2246,11 @@
     }
     @media (max-width: 768px) {
       .navbar {
-        min-height: 60px;
-        padding: 10px 16px;
+        min-height: 64px;
+        padding: 0 40px;
       }
       .navbar__logo-img {
-        height: 32px;
+        height: 56px;
       }
       .navbar__right {
         gap: 0;
@@ -2221,7 +2327,7 @@
         width: 259px;
         height: 259px;
         top: -64px;
-        left: 0;
+        left: var(--page-gutter);
       }
       .pricing__deco {
         width: 280px;
@@ -2268,7 +2374,7 @@
   <nav class="navbar" aria-label="主导航">
     <div class="navbar__brand">
       <a class="navbar__logo" href="#hero" aria-label="OctoAI 算力服务平台">
-        <img class="navbar__logo-img" src="assets/logo.svg?v=20260609-1" alt="OctoAI 算力服务平台">
+        <img class="navbar__logo-img" src="assets/logo-new.svg?v=20260609-2" alt="OctoAI 算力服务平台">
       </a>
     </div>
     <button class="navbar__toggle" type="button" aria-expanded="false" aria-label="打开导航菜单">
@@ -2278,10 +2384,35 @@
     </button>
     <div class="navbar__right">
       <div class="navbar__menu">
-        <span class="navbar__link">产品及定价</span>
-        <span class="navbar__link">平台优势</span>
-        <span class="navbar__link">帮助文档</span>
-        <span class="navbar__link">联系销售</span>
+        <a class="navbar__link" href="#pricing" data-section="pricing">产品及定价</a>
+        <div class="navbar__dropdown">
+          <button class="navbar__link navbar__dropdown-trigger" type="button" aria-expanded="false">
+            <span>AI应用</span>
+            <img src="assets/icon-dropdown.svg" alt="展开">
+          </button>
+          <div class="navbar__dropdown-menu" role="menu" aria-label="AI应用列表">
+            <div class="navbar__dropdown-list">
+              <a class="navbar__dropdown-item" href="ai-app-smart-material.html">
+                <strong>智能素材创作</strong>
+                <span>投流视频脚本、素材、数字人与成片闭环</span>
+              </a>
+              <a class="navbar__dropdown-item" href="ai-app-xiaohongshu-note.html">
+                <strong>小红书笔记智能素材说明</strong>
+                <span>图文爆款洞察、人设生成与工业化内容生产</span>
+              </a>
+              <a class="navbar__dropdown-item" href="ai-app-douyin-live.html">
+                <strong>抖音直播AI助手</strong>
+                <span>直播公屏互动、差评覆盖与高意向用户回捞</span>
+              </a>
+              <a class="navbar__dropdown-item" href="ai-app-customer-service.html">
+                <strong>AI智能客服</strong>
+                <span>全渠道私信接入、留资转化与智能转人工</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <a class="navbar__link" href="#help-docs" data-section="help">帮助文档</a>
+        <a class="navbar__link" href="#contact-sales" data-section="sales">联系销售</a>
       </div>
       <div class="navbar__actions">
         <div class="navbar__sep"></div>
@@ -3350,7 +3481,7 @@
   <!-- ============================================================
        CTA + CONTACT SECTION
   ============================================================ -->
-  <section class="cta">
+  <section class="cta" id="contact-sales">
     <!-- Left column -->
     <div class="cta__left">
       <div class="cta__heading">
@@ -3424,11 +3555,11 @@
   <!-- ============================================================
        FOOTER
   ============================================================ -->
-  <footer class="footer">
+  <footer class="footer" id="help-docs">
     <!-- Top: brand + nav columns -->
     <div class="footer__top">
       <div class="footer__brand">
-        <span class="footer__brand-name">诺勤信息科技</span>
+        <span class="footer__brand-name">Octokens</span>
         <p class="footer__brand-desc">专为人工智能工作负载打造的下一代高性能云平台。提供从推理到大规模集群训练的弹性计算、网络和存储解决方案，助力创新者实现飞跃。</p>
       </div>
     </div>
@@ -3463,7 +3594,10 @@
     var hero = document.querySelector('#hero');
     var pricingSectionV2 = document.querySelector('.pricing--v2');
     var scrollTopButton = document.querySelector('.scroll-top');
-    var navLinks = Array.from(document.querySelectorAll('.navbar__link'));
+    var navLinks = Array.from(document.querySelectorAll('.navbar__link[data-section]'));
+    var navbarDropdown = document.querySelector('.navbar__dropdown');
+    var navbarDropdownTrigger = navbarDropdown ? navbarDropdown.querySelector('.navbar__dropdown-trigger') : null;
+    var navbarDropdownItems = navbarDropdown ? Array.from(navbarDropdown.querySelectorAll('.navbar__dropdown-item')) : [];
     var primaryButtons = Array.from(document.querySelectorAll('.btn-primary, .btn-submit, .navbar__console, .footer__sub-btn, .nav-btn, .scroll-top'));
     var revealTargets = Array.from(document.querySelectorAll(
       '.hero__badge, .hero__heading-wrap, .hero__stats, .pcard, .pricing__header, .pricing__tabs, .pricing__panel, .logos__hd, .logos__row, .scard, .cta__left, .cta__form, .footer__top, .footer__middle'
@@ -3480,13 +3614,9 @@
     // 区块映射：导航点击后平滑定位到对应内容区
     // ============================================================
     var sectionMap = {
-      '产品及定价': [
-        document.querySelector('.products'),
-        document.querySelector('.pricing--v2')
-      ].filter(Boolean),
-      '平台优势': [document.querySelector('.solutions')].filter(Boolean),
-      '帮助文档': [document.querySelector('.footer')].filter(Boolean),
-      '联系销售': [document.querySelector('.cta')].filter(Boolean)
+      pricing: document.querySelector('#pricing'),
+      help: document.querySelector('#help-docs'),
+      sales: document.querySelector('#contact-sales')
     };
 
     // ============================================================
@@ -3714,6 +3844,20 @@
       navbarToggle.setAttribute('aria-expanded', 'false');
       navbarToggle.setAttribute('aria-label', '打开导航菜单');
       document.body.classList.remove('mobile-nav-open');
+      closeNavbarDropdown();
+    }
+
+    function closeNavbarDropdown() {
+      if (!navbarDropdown || !navbarDropdownTrigger) return;
+      navbarDropdown.classList.remove('is-open');
+      navbarDropdownTrigger.setAttribute('aria-expanded', 'false');
+    }
+
+    function toggleNavbarDropdown(forceOpen) {
+      if (!navbarDropdown || !navbarDropdownTrigger) return;
+      var nextState = typeof forceOpen === 'boolean' ? forceOpen : !navbarDropdown.classList.contains('is-open');
+      navbarDropdown.classList.toggle('is-open', nextState);
+      navbarDropdownTrigger.setAttribute('aria-expanded', String(nextState));
     }
 
     if (navbarToggle && navbar) {
@@ -3735,9 +3879,36 @@
       });
     }
 
+    if (navbarDropdown && navbarDropdownTrigger) {
+      navbarDropdownTrigger.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleNavbarDropdown();
+      });
+
+      navbarDropdown.addEventListener('mouseenter', function () {
+        if (window.innerWidth > 1024) toggleNavbarDropdown(true);
+      });
+
+      navbarDropdown.addEventListener('mouseleave', function () {
+        if (window.innerWidth > 1024) toggleNavbarDropdown(false);
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!navbarDropdown.contains(event.target)) {
+          closeNavbarDropdown();
+        }
+      });
+
+      navbarDropdownItems.forEach(function (item) {
+        item.addEventListener('click', function () {
+          closeMobileNav();
+        });
+      });
+    }
+
     navLinks.forEach(function (link) {
-      var targetSections = sectionMap[link.textContent.trim()] || [];
-      var targetSection = targetSections[0];
+      var targetSection = sectionMap[link.getAttribute('data-section')];
 
       link.addEventListener('click', function (event) {
         event.preventDefault();
@@ -3756,7 +3927,7 @@
         if (!entry.isIntersecting) return;
 
         var matchedLink = navLinks.find(function (link) {
-          return (sectionMap[link.textContent.trim()] || []).includes(entry.target);
+          return sectionMap[link.getAttribute('data-section')] === entry.target;
         });
 
         if (matchedLink) {
@@ -3769,9 +3940,7 @@
     });
 
     Object.keys(sectionMap).forEach(function (key) {
-      (sectionMap[key] || []).forEach(function (section) {
-        sectionObserver.observe(section);
-      });
+      if (sectionMap[key]) sectionObserver.observe(sectionMap[key]);
     });
 
     if (pricingSectionV2) {
